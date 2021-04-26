@@ -5,6 +5,7 @@ import helpers
 import time
 start_time = time.time()
 
+
 class IncorrectLevel(Exception): pass
 class IDInactive(Exception): pass
 
@@ -31,12 +32,12 @@ class User:
             TypeError: Check if series elements are string data type
         '''
 
-        def evaluate_exception(bool_ser_x):
+        def evaluate_str_type(bool_ser_x):
             '''Evaluates if series elements are string data type'''
             
             
             if not bool_ser_x.all():                                                                    # Return True if all elements are True
-                raise TypeError("User data has to be a string!!")
+                raise TypeError("User data has to be string type. Please try again.")
 
             else:            
                 self._first_name, self._last_name, self._address, self._phone, self.creation_date = \
@@ -47,11 +48,11 @@ class User:
         bool_ser = user_info_ser.apply(lambda x: True if isinstance(x, str) else False)                 # Return boolean ser by applying lambda function to check if ser elements are str type 
 
         try:                                                                                            # Try-Except Block to check and handle Expcetion when arguments are not all str type
-            evaluate_exception(bool_ser)                                     
+            evaluate_str_type(bool_ser)                                     
 
         except TypeError:
-            print("User data has to be a string!!")
-            raise SystemExit                                                                            # Exit program after printing msg to user about TypeError
+            print("User data has to be string type. Please try again.")
+            raise SystemExit
             
                                                                                                         
     @property
@@ -75,44 +76,86 @@ class User:
         return self._phone
     
     
-
-
-    def set_address(self, address):
+    @classmethod
+    def update_address(cls, address):
         '''
         Update user's address.
         
         Args:
-            address (str): New User's address to assign to object.
+            address (str): User's new address to assign to object.
              
-        Raises (TBD)
+        Raises:
+            TypeError: Check if address is str data type.
 
         '''
-        self.address = address
+        
 
+        def evaluate_str_type(address):
+            '''Evaluates if address is string data type'''
+            
+            if not isinstance(address, str):
+                raise TypeError("Address has to be string type. Please try again.")
+       
+        try:                                                                                      
+            evaluate_str_type(address)                                   
 
-    def update_phone(self, phone):
+        except TypeError:
+            print("Address has to be string type. Please try again.")
+            raise SystemExit
+            
+
+    @classmethod
+    def update_phone(cls, phone):
         '''
-        Update user's phone.
+        Update user's phone number.
         
         Args:
-            address (str): New user's phone to assign to object.
+            phone (str): User's new phone number to assign to object.
              
-        Raises (TBD)
+        Raises:
+            TypeError: Check if phone number is str data type.
 
         '''
-        pass
-
-    def update_email(self, email):
-        '''
-        Update user's email.
         
-        Args:
-            address (str): New user's email to assign to object.
-             
-        Raises (TBD)
+        def evaluate_str_type(phone):
+            '''Evaluates if phone number is str data type'''
+            
+            if not isinstance(phone, str):
+                raise TypeError("Phone number has to be string type. Please try again.")
+       
+        try:                                                                                      
+            evaluate_str_type(phone)                                   
 
-        '''
-        pass
+        except TypeError:
+            print("Phone number has to be string type. Please try again.")
+            raise SystemExit
+
+
+    # @classmethod
+    # def update_email(cls, email):
+    #     '''
+    #     Update user's email.
+        
+    #     Args:
+    #         email (str): User's new email to assign to object.
+             
+    #     Raises:
+    #         TypeError: Check if email is str data type.
+
+    #     '''
+        
+    #     def evaluate_str_type(email):
+    #         '''Evaluates if email is str data type'''
+            
+    #         if not isinstance(email, str):
+    #             raise TypeError("Email has to be string type. Please try again.")
+       
+    #     try:                                                                                      
+    #         evaluate_str_type(email)                                   
+
+    #     except TypeError:
+    #         print("Email has to be string type. Please try again.")
+    #         raise SystemExit
 
     def compute_account_age(self):
         '''
@@ -187,6 +230,166 @@ class Employee(User):
         print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
         print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")   
         # print(employees.dtypes)     
+
+
+    @classmethod
+    def update_address(cls, address, employee_id):
+        '''
+        Update employee's address.
+        
+        Args:
+            address (str): Employee's new address.
+            employee_id (int): Employee's ID to update address.
+
+             
+        Raises:
+            TypeError: Check if employee_id is Int.
+            ValueError: Check if employee_id exists.
+
+        '''
+
+        User.update_address(address)
+
+        def evaluate_id(idx, address): 
+            '''Evaluates if Employee_id is valid'''
+
+            employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+            cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
+            Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
+
+            if isinstance(idx, bool):
+                raise TypeError("ID must be an integer")
+            
+            if not isinstance(idx, int):
+                raise TypeError("ID must be an integer")
+
+            if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
+                raise ValueError("Employee ID doesn't exist. Please try again.")
+            
+            else:
+                
+                employees.at[employees.employee_id == idx, "address"] = address
+                employees = cls._convert_df_datatypes(employees)
+                helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                        
+                print(f"Employee ID {idx}'s address was updated to {address}")
+                print(employees.head(10)) 
+                   
+
+        try:
+            evaluate_id(employee_id, address)
+
+        except TypeError:
+            print("ID must be an integer")
+        except ValueError:
+            print(f"Employee ID {employee_id} doesn't exist. Please try again.")
+
+    
+    @classmethod
+    def update_phone(cls, phone, employee_id):
+        '''
+        Update employee's phone number.
+        
+        Args:
+            phone (str): Employee's new phone number.
+            employee_id (int): Employee's ID to update phone number.
+
+             
+        Raises:
+            TypeError: Check if employee_id is Int.
+            ValueError: Check if employee_id exists.
+
+        '''
+
+        User.update_phone(phone)
+
+        def evaluate_id(idx, phone): 
+            '''Evaluates if Employee_id is valid'''
+
+            employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+            cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
+            Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
+
+            if isinstance(idx, bool):
+                raise TypeError("ID must be an integer")
+            
+            if not isinstance(idx, int):
+                raise TypeError("ID must be an integer")
+
+            if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
+                raise ValueError("Employee ID doesn't exist. Please try again.")
+            
+            else:
+                
+                employees.at[employees.employee_id == idx, "phone"] = phone
+                employees = cls._convert_df_datatypes(employees)
+                helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                        
+                print(f"Employee ID {idx}'s phone number was updated to {phone}")
+                print(employees.head(10)) 
+                   
+
+        try:
+            evaluate_id(employee_id, phone)
+
+        except TypeError:
+            print("ID must be an integer")
+        except ValueError:
+            print(f"Employee ID {employee_id} doesn't exist. Please try again.")
+
+
+    # @classmethod
+    # def update_email(cls, email, employee_id):
+    #     '''
+    #     Update employee's email.
+        
+    #     Args:
+    #         email (str): Employee's new email.
+    #         employee_id (int): Employee's ID to update email.
+
+             
+    #     Raises:
+    #         TypeError: Check if employee_id is Int.
+    #         ValueError: Check if employee_id exists.
+
+    #     '''
+
+    #     User.update_email(email)
+
+    #     def evaluate_id(idx, email): 
+    #         '''Evaluates if Employee_id is valid'''
+
+    #         employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+    #         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
+    #         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
+
+    #         if isinstance(idx, bool):
+    #             raise TypeError("ID must be an integer")
+            
+    #         if not isinstance(idx, int):
+    #             raise TypeError("ID must be an integer")
+
+    #         if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
+    #             raise ValueError("Employee ID doesn't exist. Please try again.")
+            
+    #         else:
+                
+    #             employees.at[employees.employee_id == idx, "email"] = email
+    #             employees = cls._convert_df_datatypes(employees)
+    #             helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                        
+    #             print(f"Employee ID {idx}'s phone number was updated to {email}")
+    #             print(employees.head(10)) 
+                   
+
+    #     try:
+    #         evaluate_id(employee_id, email)
+
+    #     except TypeError:
+    #         print("ID must be an integer")
+    #     except ValueError:
+    #         print(f"Employee ID {employee_id} doesn't exist. Please try again.")
+
 
     @classmethod
     def increase_total_employees(cls):
@@ -280,7 +483,7 @@ class Employee(User):
                 raise TypeError("ID must be an integer")
 
             if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
-                raise ValueError("Employee ID doesn't exist")
+                raise ValueError("Employee ID doesn't exist. Please try again.")
             
             if employees[employees["employee_id"] == idx]["active"].bool() == False:
 
@@ -307,7 +510,7 @@ class Employee(User):
         except TypeError:
             print("ID must be an integer")
         except ValueError:
-            print(f"Employee ID {id} doesn't exist")
+            print(f"Employee ID {id} doesn't exist. Please try again.")
         except IDInactive:
             print(f"Employee ID {id} is already inactive")
 
@@ -343,19 +546,22 @@ class Employee(User):
         return f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}"
 
 
+    
 
-# for i in range(1000):
+# Employee.update_email('@', 10)
+
+# for i in range(100):
 
 #     e0 = Employee(['Rafael', 'Roano', 'Cataratas Niagara 163', '5564735'], [1, 10])
 
 
 
-# e0 = Employee(['Rafael', 'Roano', '7777 15 St, SD', '7'], [1, 10])
+# e0 = Employee(['Rafael', 'Roano', '7777 15 St, SD', '7'], ['t', 10])
 # e1 = Employee(['Raquel', 'Martinez', '2569 Bancroft St, SD, CA, 92104', '5564735'], [1, 15])
 # e2 = Employee(['Elliot', 'Roano', 'Cataratas Niagara 163', '5564735'], [2, 100000])
 # e4 = Employee(['Santino', 'Mertinez', 'Los Pinos', '202002'], [3, 1000000])
 
-# Employee.inactivate_employee(3)
+# Employee.inactivate_employee()
 
 # print(e0.first_name)
 # e0.first_name = 'Jack'
@@ -363,21 +569,25 @@ class Employee(User):
 
 
 
+# def menu():
+#     print("[1] Create User")
+#     print("[0] Exit the program")
 
+# menu()
+# option = int(input("Enter your option: "))
 
+# while option != 0:
+#     if option == 1:
+#         print("Option 1 Selected.")
+    
+#     else:
+#         print("Invalid option.")
+    
+#     print()
+#     menu()
+#     option = int(input("Enter your option: "))
 
-
-
-
-
-
-
-
-
-
-
-
-
+# print("Thanks for using this program. Bye!!")
 
 
 
