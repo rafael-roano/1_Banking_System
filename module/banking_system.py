@@ -1,6 +1,8 @@
 from datetime import date
 import pandas as pd
 import helpers
+import logging
+from os import system, name
 
 import time
 start_time = time.time()
@@ -8,6 +10,29 @@ start_time = time.time()
 
 class IncorrectLevel(Exception): pass
 class IDInactive(Exception): pass
+
+
+class HandlerFilter():
+    def __init__(self, level):
+        self.__level = level
+
+    def filter(self, logRecord):
+        return logRecord.levelno == self.__level
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')
+
+console_handler = logging.StreamHandler()
+console_handler.addFilter(HandlerFilter(logging.INFO))
+
+file_handler = logging.FileHandler('1_Banking_System/logs/banking_system.log')
+file_handler.setFormatter(formatter)
+file_handler.addFilter(HandlerFilter(logging.ERROR))
+
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
 
 
 
@@ -37,7 +62,7 @@ class User:
             
             
             if not bool_ser_x.all():                                                                    # Return True if all elements are True
-                raise TypeError("User data has to be string type. Please try again.")
+                raise TypeError
 
             else:            
                 self._first_name, self._last_name, self._address, self._phone, self.creation_date = \
@@ -51,7 +76,8 @@ class User:
             evaluate_str_type(bool_ser)                                     
 
         except TypeError:
-            print("User data has to be string type. Please try again.")
+            logger.info("User data has to be string type. Please try again.")
+            logger.error("User info inputted was not string type")
             raise SystemExit
             
                                                                                                         
@@ -230,6 +256,8 @@ class Employee(User):
         print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
         print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")   
         # print(employees.dtypes)     
+
+        logger.info(f"Employee ID {self.employee_id} was added successfully")
 
 
     @classmethod
@@ -556,7 +584,7 @@ class Employee(User):
 
 
 
-# e0 = Employee(['Rafael', 'Roano', '7777 15 St, SD', '7'], ['t', 10])
+# e0 = Employee(['Rafael', 'Roano', '7777 15 St, SD', 7], [2, 10])
 # e1 = Employee(['Raquel', 'Martinez', '2569 Bancroft St, SD, CA, 92104', '5564735'], [1, 15])
 # e2 = Employee(['Elliot', 'Roano', 'Cataratas Niagara 163', '5564735'], [2, 100000])
 # e4 = Employee(['Santino', 'Mertinez', 'Los Pinos', '202002'], [3, 1000000])
@@ -566,28 +594,6 @@ class Employee(User):
 # print(e0.first_name)
 # e0.first_name = 'Jack'
 # print(e0.first_name)
-
-
-
-# def menu():
-#     print("[1] Create User")
-#     print("[0] Exit the program")
-
-# menu()
-# option = int(input("Enter your option: "))
-
-# while option != 0:
-#     if option == 1:
-#         print("Option 1 Selected.")
-    
-#     else:
-#         print("Invalid option.")
-    
-#     print()
-#     menu()
-#     option = int(input("Enter your option: "))
-
-# print("Thanks for using this program. Bye!!")
 
 
 
@@ -874,7 +880,93 @@ class CreditCard(Service):
         '''
         pass
 
-script_time = round(time.time() - start_time, 2)
-print(f"Script took {script_time} seconds")
 
+def clear():
+    if name == "nt":
+        s = system("cls")
+  
+    else:
+        s = system("clear")
+
+def menu():
+    print("      Main Menu      ")
+    print("---------------------")
+    print("[1] Employee Menu")
+    print("[0] Exit the Program")
+    print()
+
+def employee_menu():
+    print("   Employee Menu   ")
+    print('-------------------')
+    print("[1] Create Employee")
+    print("[0] Return to Main Menu")
+    print()
+
+
+clear()
+menu()
+option = int(input("Enter your option: "))
+
+while option != 0:
+    
+    if option == 1:
+        clear()
+        employee_menu()
+        
+      
+        while True:
+            try:
+                if option == 0:
+                    break
+                option = int(input("Enter your option: "))
+
+            except ValueError:
+                logger.error("User info inputted was not int type")
+                clear()
+                employee_menu()
+                logger.info("Invalid option. Please try again.")
+                print()
+                           
+                       
+            else:
+               
+                while option != 0:           
+                  
+                    if option == 1:
+                        raise SystemExit("To develop option")
+                    else:
+                        clear()
+                        employee_menu()
+                        logger.info("Invalid option. Please try again.")
+                        print()
+                        
+                        while True:
+                            try:
+                                option = int(input("Enter your option: "))
+                                
+                            except ValueError:
+                                logger.error("User info inputted was not int type")
+                                clear()
+                                employee_menu()
+                                logger.info("Invalid option. Please try again.")
+                                print()
+                            else:
+                                break
        
+            
+    
+    else:
+        print("Invalid option.")
+    
+    clear()
+    menu()
+    option = int(input("Enter your option: "))
+
+clear()
+print("Thanks for using this program.")
+print()
+
+
+# script_time = round(time.time() - start_time, 2)              # Take time of execution
+# print(f"Script took {script_time} seconds")
+
