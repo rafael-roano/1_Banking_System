@@ -120,8 +120,8 @@ class User:
             '''Evaluates if address is string data type'''
             
             if not isinstance(address, str):
-                raise TypeError("Address has to be string type. Please try again.")
-       
+                raise TypeError
+        
         try:                                                                                      
             evaluate_str_type(address)                                   
 
@@ -155,45 +155,6 @@ class User:
         except TypeError:
             print("Phone number has to be string type. Please try again.")
             raise SystemExit
-
-
-    # @classmethod
-    # def update_email(cls, email):
-    #     '''
-    #     Update user's email.
-        
-    #     Args:
-    #         email (str): User's new email to assign to object.
-             
-    #     Raises:
-    #         TypeError: Check if email is str data type.
-
-    #     '''
-        
-    #     def evaluate_str_type(email):
-    #         '''Evaluates if email is str data type'''
-            
-    #         if not isinstance(email, str):
-    #             raise TypeError("Email has to be string type. Please try again.")
-       
-    #     try:                                                                                      
-    #         evaluate_str_type(email)                                   
-
-    #     except TypeError:
-    #         print("Email has to be string type. Please try again.")
-    #         raise SystemExit
-
-    def compute_account_age(self):
-        '''
-        Compute User's account age.
-        
-        Returns:
-            int
-                  
-        Raises (TBD)
-
-        '''
-        pass
 
 
 
@@ -251,13 +212,13 @@ class Employee(User):
         helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                 # Call helper function to save df back to csv 
         self.save_total_employees()                                                                         # Save total employees and ID count back to csv
 
-        print(f"Employee ID {self.employee_id} was added successfully")
-        print(employees.head(10))
-        print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
-        print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")   
+        logger.info(f"Employee ID {self.employee_id} was added successfully")
+        # print(employees.head(10))
+        # print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
+        # print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")   
         # print(employees.dtypes)     
 
-        logger.info(f"Employee ID {self.employee_id} was added successfully")
+        
 
 
     @classmethod
@@ -365,60 +326,8 @@ class Employee(User):
         except ValueError:
             print(f"Employee ID {employee_id} doesn't exist. Please try again.")
 
-
-    # @classmethod
-    # def update_email(cls, email, employee_id):
-    #     '''
-    #     Update employee's email.
-        
-    #     Args:
-    #         email (str): Employee's new email.
-    #         employee_id (int): Employee's ID to update email.
-
-             
-    #     Raises:
-    #         TypeError: Check if employee_id is Int.
-    #         ValueError: Check if employee_id exists.
-
-    #     '''
-
-    #     User.update_email(email)
-
-    #     def evaluate_id(idx, email): 
-    #         '''Evaluates if Employee_id is valid'''
-
-    #         employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
-    #         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
-    #         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
-
-    #         if isinstance(idx, bool):
-    #             raise TypeError("ID must be an integer")
-            
-    #         if not isinstance(idx, int):
-    #             raise TypeError("ID must be an integer")
-
-    #         if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
-    #             raise ValueError("Employee ID doesn't exist. Please try again.")
-            
-    #         else:
-                
-    #             employees.at[employees.employee_id == idx, "email"] = email
-    #             employees = cls._convert_df_datatypes(employees)
-    #             helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
-                        
-    #             print(f"Employee ID {idx}'s phone number was updated to {email}")
-    #             print(employees.head(10)) 
-                   
-
-    #     try:
-    #         evaluate_id(employee_id, email)
-
-    #     except TypeError:
-    #         print("ID must be an integer")
-    #     except ValueError:
-    #         print(f"Employee ID {employee_id} doesn't exist. Please try again.")
-
-
+    
+   
     @classmethod
     def increase_total_employees(cls):
         '''
@@ -881,6 +790,139 @@ class CreditCard(Service):
         pass
 
 
+
+
+
+
+
+
+
+
+def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
+
+    f = False   
+    
+    while True:
+            try:
+                if option == 0 or f == True:
+                    break                
+                option = int(input("Enter your option: "))
+
+            except ValueError:
+                logger.error("User info inputted was not int type")
+                clear()
+                menu()
+                logger.info("Invalid option. Please try again.")
+                logger.info("")                           
+                       
+            else:               
+                while option != 0:           
+                  
+                    if options == 1:
+                    
+                        if option == 1:
+                            m1()
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                        
+                    
+                    elif options == 2:
+                    
+                        if option == 1:
+                            m1()
+                            f = True
+                            break
+                        if option == 2:
+                            m2()
+                        
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                    
+                    elif options == 3:
+                    
+                        if option == 1:
+                            m1()
+                        if option == 2:
+                            m2()
+                        if option == 3:
+                            m3()              
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+
+
+def check_emptiness(input):
+    if not input:
+        raise ValueError
+
+def check_decimals(input):
+    if not input.isdecimal():     
+        raise ValueError
+
+def check_phone_len(input):
+    if len(input) < 10:     
+        raise ValueError
+
+def check_employee_level(input):
+    if not input in (1, 2, 3):     
+        raise ValueError
+
+def check_salary(input):              
+        
+    if input < 0:
+        raise ValueError
+
+
 def clear():
     if name == "nt":
         s = system("cls")
@@ -889,18 +931,115 @@ def clear():
         s = system("clear")
 
 def menu():
-    print("      Main Menu      ")
-    print("---------------------")
-    print("[1] Employee Menu")
-    print("[0] Exit the Program")
-    print()
+    logger.info("      Main Menu      ")
+    logger.info("---------------------")
+    logger.info("[1] Employee Menu")
+    logger.info("[0] Exit the Program")
+    logger.info("")
 
 def employee_menu():
-    print("   Employee Menu   ")
-    print('-------------------')
-    print("[1] Create Employee")
-    print("[0] Return to Main Menu")
-    print()
+    logger.info("   Employee Menu   ")
+    logger.info('-------------------')
+    logger.info("[1] Create Employee")
+    logger.info("[2] Another Option")
+    logger.info("[0] Return to Main Menu")
+    logger.info("")
+
+                        
+ 
+def create_employee():
+    
+    
+    clear()
+    
+    while True:
+        try:
+            first_name = str(input("Enter First Name: "))
+            check_emptiness(first_name)
+        except ValueError:
+                logger.info("First name needs to be least one character long. Please try again.")
+                logger.info("")
+                logger.error("Employee's first name left empty")
+        else:
+            break
+    
+    clear()
+    
+    while True:
+        try:
+            last_name = str(input("Enter Last Name: "))
+            check_emptiness(last_name)
+        except ValueError:
+                logger.info("Last name needs to be least one character long. Please try again.")
+                logger.info("")
+                logger.error("Employee's last name left empty")
+        else:
+            break
+    
+    clear()
+
+    while True:
+        try:
+            address = str(input("Enter Employee's Address: "))
+            check_emptiness(address)
+        except ValueError:
+                logger.info("Address needs to be least one character long. Please try again.")
+                logger.info("")
+                logger.error("Employee's address left empty")
+        else:
+            break
+    
+    clear()
+    
+    while True:
+        try:
+            phone = str(input("Enter Employee's Phone: "))
+            check_decimals(phone)
+            check_phone_len(phone)
+        except ValueError:
+                logger.info("Phone number needs to be 10 character long. Please try again.")
+                logger.info("")
+                logger.error("Employee's phone number was not 10 character long")
+        else:
+            break
+    
+    clear()
+    
+    while True:
+        try:
+            level = int(input("Enter Employee's Level: "))
+            check_employee_level(level)
+        except ValueError:
+                logger.info("Valid employee levels are 1, 2, 3. Please try again.")
+                logger.info("")
+                logger.error("Invalid employee's level")
+        else:
+            break
+    
+    clear()
+    
+    while True:        
+        
+        try:            
+            salary = int(input("Enter Employee's Salary: "))
+            check_salary(salary)
+            
+        except ValueError:
+                logger.info("Salary must be a non-negative amount. Please try again.")
+                logger.info("")
+                logger.error("Invalid employee's salary")
+        
+        else:
+            break
+                    
+    clear()
+    new_employee = Employee([first_name, last_name, address, phone], [level, salary])   
+    logger.info("")
+    input("Press Enter to continue...")
+
+
+def m2_test():
+    raise SystemExit("To develop option 2")
 
 
 clear()
@@ -912,59 +1051,20 @@ while option != 0:
     if option == 1:
         clear()
         employee_menu()
-        
-      
-        while True:
-            try:
-                if option == 0:
-                    break
-                option = int(input("Enter your option: "))
-
-            except ValueError:
-                logger.error("User info inputted was not int type")
-                clear()
-                employee_menu()
-                logger.info("Invalid option. Please try again.")
-                print()
-                           
-                       
-            else:
-               
-                while option != 0:           
-                  
-                    if option == 1:
-                        raise SystemExit("To develop option")
-                    else:
-                        clear()
-                        employee_menu()
-                        logger.info("Invalid option. Please try again.")
-                        print()
-                        
-                        while True:
-                            try:
-                                option = int(input("Enter your option: "))
-                                
-                            except ValueError:
-                                logger.error("User info inputted was not int type")
-                                clear()
-                                employee_menu()
-                                logger.info("Invalid option. Please try again.")
-                                print()
-                            else:
-                                break
-       
+        input_validation(employee_menu, option, options=2, m1=create_employee, m2=m2_test)             
+              
             
     
     else:
-        print("Invalid option.")
+        logger.info("Invalid option.")
     
     clear()
     menu()
     option = int(input("Enter your option: "))
 
 clear()
-print("Thanks for using this program.")
-print()
+logger.info("Thanks for using this program.")
+logger.info("")
 
 
 # script_time = round(time.time() - start_time, 2)              # Take time of execution

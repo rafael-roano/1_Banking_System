@@ -1,1 +1,7 @@
-employee_id,first_name,last_name,address,phone,level,salary,creation_date,active,email
+employee_id,first_name,last_name,address,phone,level,salary,creation_date,active
+1,Elliot,Aguilera,"Cataratas del Niagara, Mexico",1234567891.0,3,10000,2021-05-04,True
+2,Santino,M.,1111 Bancroft LA,9876543210.0,1,23000,2021-05-04,True
+3,Jack,CHan,Tj,4152639870.0,2,60000,2021-05-04,True
+4,Lulu,x,d,1496325870.0,1,410000,2021-05-04,True
+5,k,s,g,1236547896.0,1,100000,2021-05-04,True
+6,Luis,F,df,4785963210.0,3,20000,2021-05-04,True
