@@ -1,7 +1,9 @@
 from datetime import date
 import pandas as pd
-import helpers
+import helpers as h
 import logging
+
+
 from os import system, name
 
 import time
@@ -10,7 +12,6 @@ start_time = time.time()
 
 class IncorrectLevel(Exception): pass
 class IDInactive(Exception): pass
-
 
 class HandlerFilter():
     def __init__(self, level):
@@ -33,6 +34,8 @@ file_handler.addFilter(HandlerFilter(logging.ERROR))
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+
 
 
 
@@ -206,10 +209,10 @@ class Employee(User):
                 Employee.EMPLOYEE_ID_COUNT, employee_info_ser[0], employee_info_ser[1], True
                
         
-        employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")                                # Call helper function to open and read csv into df               
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                # Call helper function to open and read csv into df               
         employees = self.update_df(employees)
         employees = self._convert_df_datatypes(employees)
-        helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                 # Call helper function to save df back to csv 
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                 # Call helper function to save df back to csv 
         self.save_total_employees()                                                                         # Save total employees and ID count back to csv
 
         logger.info(f"Employee ID {self.employee_id} was added successfully")
@@ -242,7 +245,7 @@ class Employee(User):
         def evaluate_id(idx, address): 
             '''Evaluates if Employee_id is valid'''
 
-            employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
             cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
             Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
 
@@ -259,7 +262,7 @@ class Employee(User):
                 
                 employees.at[employees.employee_id == idx, "address"] = address
                 employees = cls._convert_df_datatypes(employees)
-                helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
                         
                 print(f"Employee ID {idx}'s address was updated to {address}")
                 print(employees.head(10)) 
@@ -295,7 +298,7 @@ class Employee(User):
         def evaluate_id(idx, phone): 
             '''Evaluates if Employee_id is valid'''
 
-            employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
             cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
             Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
 
@@ -312,7 +315,7 @@ class Employee(User):
                 
                 employees.at[employees.employee_id == idx, "phone"] = phone
                 employees = cls._convert_df_datatypes(employees)
-                helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
                         
                 print(f"Employee ID {idx}'s phone number was updated to {phone}")
                 print(employees.head(10)) 
@@ -407,7 +410,7 @@ class Employee(User):
         '''
         
         def evaluate_exception(idx):              
-            employees = helpers.csv_to_df("1_Banking_System/data/Employees.csv")
+            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
             cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
             Employee.TOTAL_EMPLOYEES = cls_attr_df.at["TOTAL_EMPLOYEES", 1]
             Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
@@ -430,7 +433,7 @@ class Employee(User):
                 employees.at[employees.employee_id == idx, "active"] = False
                 
                 employees = cls._convert_df_datatypes(employees)
-                helpers.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
+                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
                                          
                 Employee.TOTAL_EMPLOYEES -= 1
                 cls_attr_df.at["TOTAL_EMPLOYEES", 1] = Employee.TOTAL_EMPLOYEES
@@ -792,12 +795,6 @@ class CreditCard(Service):
 
 
 
-
-
-
-
-
-
 def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
 
     f = False   
@@ -901,26 +898,15 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                                     break
 
 
-def check_emptiness(input):
-    if not input:
-        raise ValueError
 
-def check_decimals(input):
-    if not input.isdecimal():     
-        raise ValueError
 
-def check_phone_len(input):
-    if len(input) < 10:     
-        raise ValueError
 
-def check_employee_level(input):
-    if not input in (1, 2, 3):     
-        raise ValueError
 
-def check_salary(input):              
-        
-    if input < 0:
-        raise ValueError
+
+
+
+
+
 
 
 def clear():
@@ -948,91 +934,97 @@ def employee_menu():
                         
  
 def create_employee():
-    
-    
+        
     clear()
     
-    while True:
-        try:
-            first_name = str(input("Enter First Name: "))
-            check_emptiness(first_name)
-        except ValueError:
-                logger.info("First name needs to be least one character long. Please try again.")
-                logger.info("")
-                logger.error("Employee's first name left empty")
-        else:
-            break
-    
+    # while True:
+    #     try:
+    #         first_name = str(input("Enter First Name: "))
+    #         h.validate_input(first_name)
+    #     except ValueError:
+    #             logger.info("First name needs to be least one character long. Please try again.")
+    #             logger.info("")
+    #             logger.error("Employee's first name left empty")
+    #     else:
+    #         break
+
+    first_name = h.catch_exception("Employee's first name", "needs to be least one character long", f1 = h.validate_input)
     clear()
     
-    while True:
-        try:
-            last_name = str(input("Enter Last Name: "))
-            check_emptiness(last_name)
-        except ValueError:
-                logger.info("Last name needs to be least one character long. Please try again.")
-                logger.info("")
-                logger.error("Employee's last name left empty")
-        else:
-            break
+    # while True:
+    #     try:
+    #         last_name = str(input("Enter Last Name: "))
+    #         h.validate_input(last_name)
+    #     except ValueError:
+    #             logger.info("Last name needs to be least one character long. Please try again.")
+    #             logger.info("")
+    #             logger.error("Employee's last name left empty")
+    #     else:
+    #         break
     
+    last_name = h.catch_exception("Employee's last name", "needs to be least one character long", f1 = h.validate_input)
     clear()
 
-    while True:
-        try:
-            address = str(input("Enter Employee's Address: "))
-            check_emptiness(address)
-        except ValueError:
-                logger.info("Address needs to be least one character long. Please try again.")
-                logger.info("")
-                logger.error("Employee's address left empty")
-        else:
-            break
+    # while True:
+    #     try:
+    #         address = str(input("Enter Employee's Address: "))
+    #         h.validate_input(address)
+    #     except ValueError:
+    #             logger.info("Address needs to be least one character long. Please try again.")
+    #             logger.info("")
+    #             logger.error("Employee's address left empty")
+    #     else:
+    #         break
     
+    address = h.catch_exception("Employee's address", "needs to be least one character long", f1 = h.validate_input)
     clear()
     
-    while True:
-        try:
-            phone = str(input("Enter Employee's Phone: "))
-            check_decimals(phone)
-            check_phone_len(phone)
-        except ValueError:
-                logger.info("Phone number needs to be 10 character long. Please try again.")
-                logger.info("")
-                logger.error("Employee's phone number was not 10 character long")
-        else:
-            break
+    # while True:
+    #     try:
+    #         phone = str(input("Enter Employee's Phone: "))
+    #         h.validate_decimals(phone)
+    #         h.validate_len(phone, 10)
+    #     except ValueError:
+    #             logger.info("Phone number needs to be 10 decimal character long. Please try again.")
+    #             logger.info("")
+    #             logger.error("Employee's phone number was not 10 decimal character long")
+    #     else:
+    #         break
     
+    phone = h.catch_exception("Employee's phone number", "needs to be 10 decimal character long", f1 = h.validate_decimals, f2 = h.validate_len, a2 = 10)
     clear()
     
-    while True:
-        try:
-            level = int(input("Enter Employee's Level: "))
-            check_employee_level(level)
-        except ValueError:
-                logger.info("Valid employee levels are 1, 2, 3. Please try again.")
-                logger.info("")
-                logger.error("Invalid employee's level")
-        else:
-            break
+    # while True:
+    #     try:
+    #         level = int(input("Enter Employee's Level: "))
+    #         h.validate_option(level, [1, 2, 3])
+    #     except ValueError:
+    #             logger.info("Valid employee levels are 1, 2, 3. Please try again.")
+    #             logger.info("")
+    #             logger.error("Invalid employee's level")
+    #     else:
+    #         break
     
+    level = h.catch_exception("Employee's level", "is not valid. Valid employee levels are 1, 2, 3", f2 = h.validate_option, a2 = [1, 2, 3], dtype = "int")
     clear()
     
-    while True:        
+    # while True:        
         
-        try:            
-            salary = int(input("Enter Employee's Salary: "))
-            check_salary(salary)
+    #     try:            
+    #         salary = int(input("Enter Employee's Salary: "))
+    #         h.validate_positive_n(salary)
             
-        except ValueError:
-                logger.info("Salary must be a non-negative amount. Please try again.")
-                logger.info("")
-                logger.error("Invalid employee's salary")
+    #     except ValueError:
+    #             logger.info("Salary must be a non-negative amount. Please try again.")
+    #             logger.info("")
+    #             logger.error("Invalid employee's salary")
         
-        else:
-            break
+    #     else:
+    #         break
                     
+    salary = h.catch_exception("Employee's salary", "must be a non-negative amount", f1 = h.validate_positive_n, dtype = "int")
     clear()
+    
     new_employee = Employee([first_name, last_name, address, phone], [level, salary])   
     logger.info("")
     input("Press Enter to continue...")
