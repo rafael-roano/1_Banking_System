@@ -53,7 +53,7 @@ class User:
         '''
         
         user_info_ser = pd.Series(user_info)                                                                # Create Pd series from list argument
-        self._first_name, self._last_name, self._address, self._phone, self.creation_date = \
+        self._first_name, self._last_name, self._address, self._phone, self._creation_date = \
             user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3],date.today()
         
             
@@ -78,35 +78,11 @@ class User:
         '''Make attribute phone a read-only property'''
         return self._phone
     
+    @property
+    def creation_date(self):
+        '''Make attribute creation_date a read-only property'''
+        return self._creation_date    
     
-    @classmethod
-    def update_address(cls, address):
-        '''
-        Update user's address.
-        
-        Args:
-            address (str): User's new address to assign to object.
-             
-        Raises:
-            TypeError: Check if address is str data type.
-
-        '''
-        
-
-        def evaluate_str_type(address):
-            '''Evaluates if address is string data type'''
-            
-            if not isinstance(address, str):
-                raise TypeError
-        
-        try:                                                                                      
-            evaluate_str_type(address)                                   
-
-        except TypeError:
-            print("Address has to be string type. Please try again.")
-            raise SystemExit
-            
-
     @classmethod
     def update_phone(cls, phone):
         '''
@@ -161,8 +137,8 @@ class Employee(User):
         self.increase_total_employees()
         self.increase_employee_id()
 
-        employee_info_ser = pd.Series(employee_info)                                                  # Create Pd series from list argument
-        self.employee_id, self.level, self.salary, self.status = \
+        employee_info_ser = pd.Series(employee_info)                                                    # Create Pd series from list argument
+        self._employee_id, self._level, self._salary, self._status = \
             Employee.EMPLOYEE_ID_COUNT, employee_info_ser[0], employee_info_ser[1], True
         
               
@@ -175,59 +151,63 @@ class Employee(User):
         logger.info(f"Employee ID {self.employee_id} was added successfully")
         
 
+    @property
+    def employee_id(self):
+        '''Make attribute employee_id a read-only property'''
+        return self._employee_id
+
+    @property
+    def level(self):
+        '''Make attribute level a read-only property'''
+        return self._level
+
+    @property
+    def salary(self):
+        '''Make attribute salary a read-only property'''
+        return self._salary
+
+    @property
+    def status(self):
+        '''Make attribute status a read-only property'''
+        return self._status
 
     @classmethod
-    def update_address(cls, address, employee_id):
+    def update_address(cls, emp_id, new_address):
         '''
         Update employee's address.
         
         Args:
-            address (str): Employee's new address.
-            employee_id (int): Employee's ID to update address.
-
-             
-        Raises:
-            TypeError: Check if employee_id is Int.
-            ValueError: Check if employee_id exists.
-
+            new_address (str): Employee's new address.
+            emp_id (int): Employee's ID to update address.
         '''
-
-        User.update_address(address)
-
-        def evaluate_id(idx, address): 
-            '''Evaluates if Employee_id is valid'''
-
-            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
-            cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
-            Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
-
-            if isinstance(idx, bool):
-                raise TypeError("ID must be an integer")
-            
-            if not isinstance(idx, int):
-                raise TypeError("ID must be an integer")
-
-            if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
-                raise ValueError("Employee ID doesn't exist. Please try again.")
-            
-            else:
+     
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
+        employees.at[employees.employee_id == emp_id, "address"] = new_address                          # Update address in df        
+        employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                   # Helper function to save df back to csv
                 
-                employees.at[employees.employee_id == idx, "address"] = address
-                employees = cls._convert_df_datatypes(employees)
-                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
-                        
-                print(f"Employee ID {idx}'s address was updated to {address}")
-                print(employees.head(10)) 
-                   
+        logger.info(f"Employee ID {emp_id}'s address was updated to {new_address}")
 
-        try:
-            evaluate_id(employee_id, address)
+    
+    @classmethod
+    def evaluate_id(cls, emp_id): 
+        '''
+        Evaluates if employee id is valid
+        
+        Args:
+            emp_id (int): Employee's ID to validate
+             
+        Raises:            
+            ValueError: Check if emp_id exists.
 
-        except TypeError:
-            print("ID must be an integer")
-        except ValueError:
-            print(f"Employee ID {employee_id} doesn't exist. Please try again.")
+        '''            
+        
+        cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
+        Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]                             # Read employee ID count
 
+        if (emp_id < 1) or (emp_id > Employee.EMPLOYEE_ID_COUNT):
+            raise ValueError
+    
     
     @classmethod
     def update_phone(cls, phone, employee_id):
@@ -747,111 +727,6 @@ class CreditCard(Service):
 
 
 
-def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
-
-    f = False   
-    
-    while True:
-            try:
-                if option == 0 or f == True:
-                    break                
-                option = int(input("Enter your option: "))
-
-            except ValueError:
-                logger.error("User info inputted was not int type")
-                h.clear()
-                menu()
-                logger.info("Invalid option. Please try again.")
-                logger.info("")                           
-                       
-            else:               
-                while option != 0:           
-                  
-                    if options == 1:
-                    
-                        if option == 1:
-                            m1()
-                        
-                        else:
-                            h.clear()
-                            menu()
-                            logger.info("Invalid option. Please try again.")
-                            logger.info("")
-                            
-                            while True:
-                                try:
-                                    option = int(input("Enter your option: "))
-                                    
-                                except ValueError:
-                                    logger.error("User info inputted was not int type")
-                                    h.clear()
-                                    menu()
-                                    logger.info("Invalid option. Please try again.")
-                                    logger.info("")
-                                else:
-                                    break
-                        
-                    
-                    elif options == 2:
-                    
-                        if option == 1:
-                            m1()
-                            f = True
-                            break
-                        if option == 2:
-                            m2()
-                        
-                        
-                        else:
-                            h.clear()
-                            menu()
-                            logger.info("Invalid option. Please try again.")
-                            logger.info("")
-                            
-                            while True:
-                                try:
-                                    option = int(input("Enter your option: "))
-                                    
-                                except ValueError:
-                                    logger.error("User info inputted was not int type")
-                                    h.clear()
-                                    menu()
-                                    logger.info("Invalid option. Please try again.")
-                                    logger.info("")
-                                else:
-                                    break
-                    
-                    elif options == 3:
-                    
-                        if option == 1:
-                            m1()
-                        if option == 2:
-                            m2()
-                        if option == 3:
-                            m3()              
-                        
-                        else:
-                            h.clear()
-                            menu()
-                            logger.info("Invalid option. Please try again.")
-                            logger.info("")
-                            
-                            while True:
-                                try:
-                                    option = int(input("Enter your option: "))
-                                    
-                                except ValueError:
-                                    logger.error("User info inputted was not int type")
-                                    h.clear()
-                                    menu()
-                                    logger.info("Invalid option. Please try again.")
-                                    logger.info("")
-                                else:
-                                    break
-
-
-
-
 def menu():
     logger.info("      Main Menu      ")
     logger.info("---------------------")
@@ -863,7 +738,7 @@ def employee_menu():
     logger.info("   Employee Menu   ")
     logger.info('-------------------')
     logger.info("[1] Create Employee")
-    logger.info("[2] Another Option")
+    logger.info("[2] Update Employee's Address")
     logger.info("[0] Return to Main Menu")
     logger.info("")
 
@@ -871,6 +746,7 @@ def employee_menu():
 def create_employee():
         
     h.clear()
+    
     first_name = h.catch_exception("Employee's first name", "needs to be least one character long", f1 = h.validate_input)
     h.clear()
     last_name = h.catch_exception("Employee's last name", "needs to be least one character long", f1 = h.validate_input)
@@ -889,8 +765,30 @@ def create_employee():
     input("Press Enter to continue...")
 
 
-def m2_test():
-    raise SystemExit("To develop option 2")
+def update_employee_address():
+        
+    h.clear()
+    
+    while True:
+            
+        try:                    
+            employee_id = h.catch_exception("Employee's ID", "needs to be a positive decimal value", f1 = h.validate_positive_n, dtype = "int")
+            Employee.evaluate_id(employee_id)
+        except ValueError:                    
+            logger.info(f"Employee ID {employee_id} doesn't exist. Please try again.")
+            logger.info("")
+            logger.error(f"Employee ID doesn't exist")
+        
+        else:
+            
+            break
+
+    h.clear()
+    
+    new_address = h.catch_exception("Employee's new address", "needs to be least one character long", f1 = h.validate_input)    
+    Employee.update_address(employee_id, new_address)    
+    logger.info("")
+    input("Press Enter to continue...")
 
 
 h.clear()
@@ -902,10 +800,9 @@ while option != 0:
     if option == 1:
         h.clear()
         employee_menu()
-        input_validation(employee_menu, option, options=2, m1=create_employee, m2=m2_test)             
+        h.option_input_validation(employee_menu, option, options=2, m1=create_employee, m2=update_employee_address)             
               
-            
-    
+     
     else:
         logger.info("Invalid option.")
     

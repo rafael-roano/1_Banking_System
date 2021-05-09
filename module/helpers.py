@@ -44,6 +44,111 @@ def df_to_csv(df, path):
     df.to_csv(path, index=False)
 
 
+def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
+
+    f = False   
+    
+    while True:
+            try:
+                if option == 0 or f == True:
+                    break                
+                option = int(input("Enter your option: "))
+
+            except ValueError:
+                logger.error("User info inputted was not int type")
+                clear()
+                menu()
+                logger.info("Invalid option. Please try again.")
+                logger.info("")                           
+                       
+            else:               
+                while option != 0:           
+                  
+                    if options == 1:
+                    
+                        if option == 1:
+                            m1()
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                        
+                    
+                    elif options == 2:
+                    
+                        if option == 1:
+                            m1()
+                            f = True
+                            break
+                        if option == 2:
+                            m2()
+                            f = True
+                            break
+                        
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                    
+                    elif options == 3:
+                    
+                        if option == 1:
+                            m1()
+                        if option == 2:
+                            m2()
+                        if option == 3:
+                            m3()              
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+
+
 
 def clear():
     if name == "nt":
@@ -80,6 +185,7 @@ def validate_positive_n(input):
 
 
 def catch_exception(field, message, f1=None, f2=None, a2=None, dtype=None):
+    '''Catch exceptions on menu data inputs'''
     
     while True:
         try:
