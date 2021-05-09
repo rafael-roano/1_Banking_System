@@ -150,7 +150,6 @@ class Employee(User):
 
         logger.info(f"Employee ID {self.employee_id} was added successfully")
         
-
     @property
     def employee_id(self):
         '''Make attribute employee_id a read-only property'''
@@ -172,24 +171,6 @@ class Employee(User):
         return self._status
 
     @classmethod
-    def update_address(cls, emp_id, new_address):
-        '''
-        Update employee's address.
-        
-        Args:
-            new_address (str): Employee's new address.
-            emp_id (int): Employee's ID to update address.
-        '''
-     
-        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
-        employees.at[employees.employee_id == emp_id, "address"] = new_address                          # Update address in df        
-        employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
-        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                   # Helper function to save df back to csv
-                
-        logger.info(f"Employee ID {emp_id}'s address was updated to {new_address}")
-
-    
-    @classmethod
     def evaluate_id(cls, emp_id): 
         '''
         Evaluates if employee id is valid
@@ -208,61 +189,41 @@ class Employee(User):
         if (emp_id < 1) or (emp_id > Employee.EMPLOYEE_ID_COUNT):
             raise ValueError
     
-    
     @classmethod
-    def update_phone(cls, phone, employee_id):
+    def update_address(cls, emp_id, new_address):
         '''
-        Update employee's phone number.
+        Update employee's address.
         
         Args:
-            phone (str): Employee's new phone number.
-            employee_id (int): Employee's ID to update phone number.
-
-             
-        Raises:
-            TypeError: Check if employee_id is Int.
-            ValueError: Check if employee_id exists.
-
+            new_address (str): Employee's new address.
+            emp_id (int): Employee's ID to update address.
         '''
-
-        User.update_phone(phone)
-
-        def evaluate_id(idx, phone): 
-            '''Evaluates if Employee_id is valid'''
-
-            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
-            cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
-            Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
-
-            if isinstance(idx, bool):
-                raise TypeError("ID must be an integer")
-            
-            if not isinstance(idx, int):
-                raise TypeError("ID must be an integer")
-
-            if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
-                raise ValueError("Employee ID doesn't exist. Please try again.")
-            
-            else:
+     
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
+        employees.at[employees.employee_id == emp_id, "address"] = new_address                          # Update address in df        
+        employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                   # Helper function to save df back to csv
                 
-                employees.at[employees.employee_id == idx, "phone"] = phone
-                employees = cls._convert_df_datatypes(employees)
-                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
-                        
-                print(f"Employee ID {idx}'s phone number was updated to {phone}")
-                print(employees.head(10)) 
-                   
+        logger.info(f"Employee ID {emp_id}'s address was updated to {new_address}")
 
-        try:
-            evaluate_id(employee_id, phone)
-
-        except TypeError:
-            print("ID must be an integer")
-        except ValueError:
-            print(f"Employee ID {employee_id} doesn't exist. Please try again.")
-
+    @classmethod
+    def update_phone(cls, emp_id, new_phone):
+        '''
+        Update employee's address.
+        
+        Args:
+            new_phone (str): Employee's new phone number.
+            emp_id (int): Employee's ID to update phone number.
+        '''
+     
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
+        employees.at[employees.employee_id == emp_id, "phone"] = new_phone                              # Update phone number in df        
+        employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                   # Helper function to save df back to csv
+                
+        logger.info(f"Employee ID {emp_id}'s phone number was updated to {new_phone}")
     
-   
+    
     @classmethod
     def increase_total_employees(cls):
         '''
@@ -416,28 +377,6 @@ class Employee(User):
         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
                 
         return f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}"
-
-
-    
-
-# Employee.update_email('@', 10)
-
-# for i in range(100):
-
-#     e0 = Employee(['Rafael', 'Roano', 'Cataratas Niagara 163', '5564735'], [1, 10])
-
-
-
-# e0 = Employee(['Rafael', 'Roano', '7777 15 St, SD', 7], [2, 10])
-# e1 = Employee(['Raquel', 'Martinez', '2569 Bancroft St, SD, CA, 92104', '5564735'], [1, 15])
-# e2 = Employee(['Elliot', 'Roano', 'Cataratas Niagara 163', '5564735'], [2, 100000])
-# e4 = Employee(['Santino', 'Mertinez', 'Los Pinos', '202002'], [3, 1000000])
-
-# Employee.inactivate_employee()
-
-# print(e0.first_name)
-# e0.first_name = 'Jack'
-# print(e0.first_name)
 
 
 
@@ -739,6 +678,7 @@ def employee_menu():
     logger.info('-------------------')
     logger.info("[1] Create Employee")
     logger.info("[2] Update Employee's Address")
+    logger.info("[3] Update Employee's Phone Number")
     logger.info("[0] Return to Main Menu")
     logger.info("")
 
@@ -790,6 +730,31 @@ def update_employee_address():
     logger.info("")
     input("Press Enter to continue...")
 
+def update_employee_phone():
+        
+    h.clear()
+    
+    while True:
+            
+        try:                    
+            employee_id = h.catch_exception("Employee's ID", "needs to be a positive decimal value", f1 = h.validate_positive_n, dtype = "int")
+            Employee.evaluate_id(employee_id)
+        except ValueError:                    
+            logger.info(f"Employee ID {employee_id} doesn't exist. Please try again.")
+            logger.info("")
+            logger.error(f"Employee ID doesn't exist")
+        
+        else:
+            
+            break
+
+    h.clear()
+    
+    new_phone = h.catch_exception("Employee's new phone number", "needs to be 10 decimal character long", f1 = h.validate_decimals, f2 = h.validate_len, a2 = 10)    
+    Employee.update_phone(employee_id, new_phone)    
+    logger.info("")
+    input("Press Enter to continue...")
+
 
 h.clear()
 menu()
@@ -800,7 +765,7 @@ while option != 0:
     if option == 1:
         h.clear()
         employee_menu()
-        h.option_input_validation(employee_menu, option, options=2, m1=create_employee, m2=update_employee_address)             
+        h.option_input_validation(employee_menu, option, options=3, m1=create_employee, m2=update_employee_address, m3=update_employee_phone)             
               
      
     else:

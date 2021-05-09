@@ -124,10 +124,16 @@ def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                     
                         if option == 1:
                             m1()
+                            f = True
+                            break
                         if option == 2:
                             m2()
+                            f = True
+                            break
                         if option == 3:
-                            m3()              
+                            m3()
+                            f = True  
+                            break         
                         
                         else:
                             clear()
