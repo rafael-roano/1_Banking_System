@@ -4,8 +4,6 @@ import helpers as h
 import logging
 
 
-from os import system, name
-
 import time
 start_time = time.time()
 
@@ -37,8 +35,6 @@ logger.addHandler(file_handler)
 
 
 
-
-
 class User:
     '''
     Abstract class to create users in system. Parent class to Employee and Customer classes
@@ -54,34 +50,12 @@ class User:
                 last_name (str): User's last name
                 address (str): User's address
                 phone (str): User's phone number
-           
-        
-        Raises:
-            TypeError: Check if series elements are string data type
         '''
-
-        def evaluate_str_type(bool_ser_x):
-            '''Evaluates if series elements are string data type'''
-            
-            
-            if not bool_ser_x.all():                                                                    # Return True if all elements are True
-                raise TypeError
-
-            else:            
-                self._first_name, self._last_name, self._address, self._phone, self.creation_date = \
-                    user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3],date.today()
-
         
-        user_info_ser = pd.Series(user_info)                                                            # Create Pd ser from list argument
-        bool_ser = user_info_ser.apply(lambda x: True if isinstance(x, str) else False)                 # Return boolean ser by applying lambda function to check if ser elements are str type 
-
-        try:                                                                                            # Try-Except Block to check and handle Expcetion when arguments are not all str type
-            evaluate_str_type(bool_ser)                                     
-
-        except TypeError:
-            logger.info("User data has to be string type. Please try again.")
-            logger.error("User info inputted was not string type")
-            raise SystemExit
+        user_info_ser = pd.Series(user_info)                                                                # Create Pd series from list argument
+        self._first_name, self._last_name, self._address, self._phone, self.creation_date = \
+            user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3],date.today()
+        
             
                                                                                                         
     @property
@@ -167,8 +141,8 @@ class Employee(User):
     Subclass from User class to create Employee records.
     '''
 
-    TOTAL_EMPLOYEES = 0                                                                                     # Class Attribute to load total employees
-    EMPLOYEE_ID_COUNT = 0                                                                                   # Class Attribute to load employee ID count
+    TOTAL_EMPLOYEES = 0                                                                                 # Class Attribute to load total employees
+    EMPLOYEE_ID_COUNT = 0                                                                               # Class Attribute to load employee ID count
 
     def __init__(self, user_info, employee_info):
         '''
@@ -182,45 +156,23 @@ class Employee(User):
             level (int): Employee's level (1=Junior, 2=Lead, 3=Senior)
             salary (int): Employee's salary
             status (bool): Employee's Status
-
-        
-        Raises (TBD)
-
         '''
         User.__init__(self, user_info)
         self.increase_total_employees()
         self.increase_employee_id()
 
-        employee_info_ser = pd.Series(employee_info)                                                        # Create Pd ser from list argument
-        bool_ser = employee_info_ser.apply(lambda x: True if isinstance(x, int) else False)                 # Return boolean ser by applying lambda function to check if ser elements are int type 
+        employee_info_ser = pd.Series(employee_info)                                                  # Create Pd series from list argument
+        self.employee_id, self.level, self.salary, self.status = \
+            Employee.EMPLOYEE_ID_COUNT, employee_info_ser[0], employee_info_ser[1], True
         
-        if not pd.Series(bool_ser).all():                                                                   # Return True if all elements are True
-            
-            raise TypeError("Employee data has to be an integer!!")
-
-        elif not employee_info_ser[0] in (1,2,3):
-            raise IncorrectLevel("Level must be: 1, 2 or 3")
-        
-        elif employee_info_ser[1] < 0:
-            raise ValueError("Employee salary has to be non-negative!!")
-
-        else:            
-            self.employee_id, self.level, self.salary, self.status = \
-                Employee.EMPLOYEE_ID_COUNT, employee_info_ser[0], employee_info_ser[1], True
-               
-        
-        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                # Call helper function to open and read csv into df               
-        employees = self.update_df(employees)
-        employees = self._convert_df_datatypes(employees)
-        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                 # Call helper function to save df back to csv 
-        self.save_total_employees()                                                                         # Save total employees and ID count back to csv
+              
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df               
+        employees = self.update_df(employees)                                                           # Update df with new Employee object info
+        employees = self._convert_df_datatypes(employees)                                               # Convert df data types
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")                                   # Helper function to save df back to csv 
+        self.save_total_employees()                                                                     # Save total employees and ID count back to csv
 
         logger.info(f"Employee ID {self.employee_id} was added successfully")
-        # print(employees.head(10))
-        # print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
-        # print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")   
-        # print(employees.dtypes)     
-
         
 
 
@@ -807,7 +759,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
 
             except ValueError:
                 logger.error("User info inputted was not int type")
-                clear()
+                h.clear()
                 menu()
                 logger.info("Invalid option. Please try again.")
                 logger.info("")                           
@@ -821,7 +773,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                             m1()
                         
                         else:
-                            clear()
+                            h.clear()
                             menu()
                             logger.info("Invalid option. Please try again.")
                             logger.info("")
@@ -832,7 +784,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                                     
                                 except ValueError:
                                     logger.error("User info inputted was not int type")
-                                    clear()
+                                    h.clear()
                                     menu()
                                     logger.info("Invalid option. Please try again.")
                                     logger.info("")
@@ -851,7 +803,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                         
                         
                         else:
-                            clear()
+                            h.clear()
                             menu()
                             logger.info("Invalid option. Please try again.")
                             logger.info("")
@@ -862,7 +814,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                                     
                                 except ValueError:
                                     logger.error("User info inputted was not int type")
-                                    clear()
+                                    h.clear()
                                     menu()
                                     logger.info("Invalid option. Please try again.")
                                     logger.info("")
@@ -879,7 +831,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                             m3()              
                         
                         else:
-                            clear()
+                            h.clear()
                             menu()
                             logger.info("Invalid option. Please try again.")
                             logger.info("")
@@ -890,7 +842,7 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
                                     
                                 except ValueError:
                                     logger.error("User info inputted was not int type")
-                                    clear()
+                                    h.clear()
                                     menu()
                                     logger.info("Invalid option. Please try again.")
                                     logger.info("")
@@ -899,22 +851,6 @@ def input_validation(menu, option, options=1, m1=None, m2=None, m3=None):
 
 
 
-
-
-
-
-
-
-
-
-
-
-def clear():
-    if name == "nt":
-        s = system("cls")
-  
-    else:
-        s = system("clear")
 
 def menu():
     logger.info("      Main Menu      ")
@@ -932,98 +868,21 @@ def employee_menu():
     logger.info("")
 
                         
- 
 def create_employee():
         
-    clear()
-    
-    # while True:
-    #     try:
-    #         first_name = str(input("Enter First Name: "))
-    #         h.validate_input(first_name)
-    #     except ValueError:
-    #             logger.info("First name needs to be least one character long. Please try again.")
-    #             logger.info("")
-    #             logger.error("Employee's first name left empty")
-    #     else:
-    #         break
-
+    h.clear()
     first_name = h.catch_exception("Employee's first name", "needs to be least one character long", f1 = h.validate_input)
-    clear()
-    
-    # while True:
-    #     try:
-    #         last_name = str(input("Enter Last Name: "))
-    #         h.validate_input(last_name)
-    #     except ValueError:
-    #             logger.info("Last name needs to be least one character long. Please try again.")
-    #             logger.info("")
-    #             logger.error("Employee's last name left empty")
-    #     else:
-    #         break
-    
+    h.clear()
     last_name = h.catch_exception("Employee's last name", "needs to be least one character long", f1 = h.validate_input)
-    clear()
-
-    # while True:
-    #     try:
-    #         address = str(input("Enter Employee's Address: "))
-    #         h.validate_input(address)
-    #     except ValueError:
-    #             logger.info("Address needs to be least one character long. Please try again.")
-    #             logger.info("")
-    #             logger.error("Employee's address left empty")
-    #     else:
-    #         break
-    
+    h.clear()
     address = h.catch_exception("Employee's address", "needs to be least one character long", f1 = h.validate_input)
-    clear()
-    
-    # while True:
-    #     try:
-    #         phone = str(input("Enter Employee's Phone: "))
-    #         h.validate_decimals(phone)
-    #         h.validate_len(phone, 10)
-    #     except ValueError:
-    #             logger.info("Phone number needs to be 10 decimal character long. Please try again.")
-    #             logger.info("")
-    #             logger.error("Employee's phone number was not 10 decimal character long")
-    #     else:
-    #         break
-    
+    h.clear() 
     phone = h.catch_exception("Employee's phone number", "needs to be 10 decimal character long", f1 = h.validate_decimals, f2 = h.validate_len, a2 = 10)
-    clear()
-    
-    # while True:
-    #     try:
-    #         level = int(input("Enter Employee's Level: "))
-    #         h.validate_option(level, [1, 2, 3])
-    #     except ValueError:
-    #             logger.info("Valid employee levels are 1, 2, 3. Please try again.")
-    #             logger.info("")
-    #             logger.error("Invalid employee's level")
-    #     else:
-    #         break
-    
+    h.clear()
     level = h.catch_exception("Employee's level", "is not valid. Valid employee levels are 1, 2, 3", f2 = h.validate_option, a2 = [1, 2, 3], dtype = "int")
-    clear()
-    
-    # while True:        
-        
-    #     try:            
-    #         salary = int(input("Enter Employee's Salary: "))
-    #         h.validate_positive_n(salary)
-            
-    #     except ValueError:
-    #             logger.info("Salary must be a non-negative amount. Please try again.")
-    #             logger.info("")
-    #             logger.error("Invalid employee's salary")
-        
-    #     else:
-    #         break
-                    
+    h.clear()                
     salary = h.catch_exception("Employee's salary", "must be a non-negative amount", f1 = h.validate_positive_n, dtype = "int")
-    clear()
+    h.clear()
     
     new_employee = Employee([first_name, last_name, address, phone], [level, salary])   
     logger.info("")
@@ -1034,14 +893,14 @@ def m2_test():
     raise SystemExit("To develop option 2")
 
 
-clear()
+h.clear()
 menu()
 option = int(input("Enter your option: "))
 
 while option != 0:
     
     if option == 1:
-        clear()
+        h.clear()
         employee_menu()
         input_validation(employee_menu, option, options=2, m1=create_employee, m2=m2_test)             
               
@@ -1050,11 +909,11 @@ while option != 0:
     else:
         logger.info("Invalid option.")
     
-    clear()
+    h.clear()
     menu()
     option = int(input("Enter your option: "))
 
-clear()
+h.clear()
 logger.info("Thanks for using this program.")
 logger.info("")
 

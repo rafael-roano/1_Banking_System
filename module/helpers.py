@@ -1,5 +1,6 @@
 import pandas as pd
 import logging
+from os import system, name
 
 class HandlerFilter():
     def __init__(self, level):
@@ -44,6 +45,12 @@ def df_to_csv(df, path):
 
 
 
+def clear():
+    if name == "nt":
+        s = system("cls")
+  
+    else:
+        s = system("clear")
 
 
 def validate_input(input):
