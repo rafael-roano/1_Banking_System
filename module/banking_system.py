@@ -7,9 +7,7 @@ import logging
 import time
 start_time = time.time()
 
-
-class IncorrectLevel(Exception): pass
-class IDInactive(Exception): pass
+class UpdateError(Exception): pass
 
 class HandlerFilter():
     def __init__(self, level):
@@ -34,7 +32,6 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 
-
 class User:
     '''
     Abstract class to create users in system. Parent class to Employee and Customer classes
@@ -54,8 +51,7 @@ class User:
         
         user_info_ser = pd.Series(user_info)                                                                # Create Pd series from list argument
         self._first_name, self._last_name, self._address, self._phone, self._creation_date = \
-            user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3],date.today()
-        
+            user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3],date.today()       
             
                                                                                                         
     @property
@@ -81,36 +77,40 @@ class User:
     @property
     def creation_date(self):
         '''Make attribute creation_date a read-only property'''
-        return self._creation_date    
+        return self._creation_date   
+
+    @classmethod
+    def evaluate_id(cls, id): 
+        '''
+        Evaluates if id is valid
+        
+        Args:
+            id (int): Employee's ID to validate
+             
+        '''
+        pass
+        
+            
+    @classmethod
+    def update_address(cls, new_address):
+        '''
+        Update user's address.
+        
+        Args:
+            address (str): User's new address to assign to object.
+        '''
+        pass
     
     @classmethod
-    def update_phone(cls, phone):
+    def update_phone(cls, new_phone):
         '''
         Update user's phone number.
         
         Args:
             phone (str): User's new phone number to assign to object.
-             
-        Raises:
-            TypeError: Check if phone number is str data type.
-
         '''
-        
-        def evaluate_str_type(phone):
-            '''Evaluates if phone number is str data type'''
-            
-            if not isinstance(phone, str):
-                raise TypeError("Phone number has to be string type. Please try again.")
-       
-        try:                                                                                      
-            evaluate_str_type(phone)                                   
-
-        except TypeError:
-            print("Phone number has to be string type. Please try again.")
-            raise SystemExit
-
-
-
+        pass
+   
 
 class Employee(User):
     '''
@@ -134,9 +134,8 @@ class Employee(User):
             status (bool): Employee's Status
         '''
         User.__init__(self, user_info)
-        self.increase_total_employees()
-        self.increase_employee_id()
-
+        self.increase_employees()                                                                    # Increase Employee and ID counters by one
+    
         employee_info_ser = pd.Series(employee_info)                                                    # Create Pd series from list argument
         self._employee_id, self._level, self._salary, self._status = \
             Employee.EMPLOYEE_ID_COUNT, employee_info_ser[0], employee_info_ser[1], True
@@ -171,23 +170,34 @@ class Employee(User):
         return self._status
 
     @classmethod
-    def evaluate_id(cls, emp_id): 
+    def evaluate_id(cls, emp_id, status=None): 
         '''
         Evaluates if employee id is valid
         
         Args:
             emp_id (int): Employee's ID to validate
+            status (bool, optional): If True, checks if employee's ID is already inactive
+
              
         Raises:            
             ValueError: Check if emp_id exists.
 
         '''            
-        
+        User.evaluate_id(emp_id)
+
         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]                             # Read employee ID count
 
         if (emp_id < 1) or (emp_id > Employee.EMPLOYEE_ID_COUNT):
             raise ValueError
+        
+        if status == True:
+            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
+            
+            if employees[employees["employee_id"] == emp_id]["active"].bool() == False:
+
+                raise UpdateError
+
     
     @classmethod
     def update_address(cls, emp_id, new_address):
@@ -198,7 +208,8 @@ class Employee(User):
             new_address (str): Employee's new address.
             emp_id (int): Employee's ID to update address.
         '''
-     
+        User.update_address(new_address)
+
         employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
         employees.at[employees.employee_id == emp_id, "address"] = new_address                          # Update address in df        
         employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
@@ -215,7 +226,8 @@ class Employee(User):
             new_phone (str): Employee's new phone number.
             emp_id (int): Employee's ID to update phone number.
         '''
-     
+        User.update_phone(new_phone)
+        
         employees = h.csv_to_df("1_Banking_System/data/Employees.csv")                                  # Helper function to open and read csv into df         
         employees.at[employees.employee_id == emp_id, "phone"] = new_phone                              # Update phone number in df        
         employees = cls._convert_df_datatypes(employees)                                                # Convert df data types
@@ -225,31 +237,18 @@ class Employee(User):
     
     
     @classmethod
-    def increase_total_employees(cls):
+    def increase_employees(cls):
         '''
-        Get current total employees quantity from csv file (cls_attr.csv) and increase by 1 when initiliazing new Employee object
+        Get current total employee quantity and current ID count from csv file (cls_attr.csv) and increase by 1 when initiliazing new Employee object
                        
         '''
         
         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
         Employee.TOTAL_EMPLOYEES = cls_attr_df.at["TOTAL_EMPLOYEES", 1]
-        Employee.TOTAL_EMPLOYEES += 1
-        
-
-    @classmethod
-    def increase_employee_id(cls):
-        '''
-        Get current ID count from csv file (cls_attr.csv) and increase by 1 when initiliazing new Employee object
-
-        Returns:
-            int
-        
-        '''
-        
-        cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
+        Employee.TOTAL_EMPLOYEES += 1
         Employee.EMPLOYEE_ID_COUNT += 1
-
+        
 
     
     def update_df(self, df):
@@ -275,9 +274,12 @@ class Employee(User):
         ''' Convert Dataframe Data Types'''
 
         df["employee_id"] = df["employee_id"].astype('int')
+        df["first_name"] = df["first_name"].astype('str')
+        df["last_name"] = df["last_name"].astype('str')
+        df["address"] = df["address"].astype('str')
         df["phone"] = df["phone"].astype('str')
-        df["salary"] = df["salary"].astype('int')
         df["level"] = df["level"].astype('int')
+        df["salary"] = df["salary"].astype('int')
         df["active"] = df["active"].astype('bool')
 
         return df
@@ -294,89 +296,39 @@ class Employee(User):
         
      
     @classmethod
-    def inactivate_employee(cls, id):
+    def inactivate_employee(cls, emp_id):
         '''
         Inactivate employee
                                 
-        Raises (TBD)
-
+        Args:            
+            emp_id (int): Employee's ID to deactivate.        
         '''
         
-        def evaluate_exception(idx):              
-            employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
-            cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
-            Employee.TOTAL_EMPLOYEES = cls_attr_df.at["TOTAL_EMPLOYEES", 1]
-            Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
-
-
-            if isinstance(idx, bool):
-                raise TypeError("ID must be an integer")
-            
-            if not isinstance(idx, int):
-                raise TypeError("ID must be an integer")
-
-            if (idx < 1) or (idx > Employee.EMPLOYEE_ID_COUNT):
-                raise ValueError("Employee ID doesn't exist. Please try again.")
-            
-            if employees[employees["employee_id"] == idx]["active"].bool() == False:
-
-                raise IDInactive("Employee is already inactive")
-
-            else:
-                employees.at[employees.employee_id == idx, "active"] = False
-                
-                employees = cls._convert_df_datatypes(employees)
-                h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
-                                         
-                Employee.TOTAL_EMPLOYEES -= 1
-                cls_attr_df.at["TOTAL_EMPLOYEES", 1] = Employee.TOTAL_EMPLOYEES
-                cls_attr_df.to_csv("1_Banking_System/data/cls_attr.csv", header=False)
+        employees = h.csv_to_df("1_Banking_System/data/Employees.csv")
+        employees.at[employees.employee_id == emp_id, "active"] = False
+        employees = cls._convert_df_datatypes(employees)
+        h.df_to_csv(employees, "1_Banking_System/data/Employees.csv")
         
-                print(f"Employee ID {idx} was inactivated")
-                print(employees.head(10)) 
-                print(f"Total Employees: {Employee.TOTAL_EMPLOYEES}")
-                print(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")       
-
-        try:
-            evaluate_exception(id)
-
-        except TypeError:
-            print("ID must be an integer")
-        except ValueError:
-            print(f"Employee ID {id} doesn't exist. Please try again.")
-        except IDInactive:
-            print(f"Employee ID {id} is already inactive")
-
+        cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
+        Employee.TOTAL_EMPLOYEES = cls_attr_df.at["TOTAL_EMPLOYEES", 1]
+        Employee.TOTAL_EMPLOYEES -= 1
+        cls_attr_df.at["TOTAL_EMPLOYEES", 1] = Employee.TOTAL_EMPLOYEES
+        cls_attr_df.to_csv("1_Banking_System/data/cls_attr.csv", header=False)
+        
+        logger.info(f"Employee ID {emp_id} was inactivated")        
+        
 
     @classmethod
     def get_total_employees(cls):
         '''
-        Get total employees.
-        
-        Returns:
-            str
-                  
+        Get total employees.                      
         '''
-
         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
         Employee.TOTAL_EMPLOYEES = cls_attr_df.at["TOTAL_EMPLOYEES", 1]
-                
-        return f"Total Employees: {Employee.TOTAL_EMPLOYEES}"
-
-    @classmethod
-    def get_total_ids(cls):
-        '''
-        Get total IDs.
-        
-        Returns:
-            str
-                  
-        '''
-
-        cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
         Employee.EMPLOYEE_ID_COUNT = cls_attr_df.at["EMPLOYEE_ID_COUNT", 1]
                 
-        return f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}"
+        logger.info(f"Total Active Employees: {Employee.TOTAL_EMPLOYEES}")
+        logger.info(f"Total ID's: {Employee.EMPLOYEE_ID_COUNT}")
 
 
 
@@ -664,12 +616,11 @@ class CreditCard(Service):
         pass
 
 
-
-
 def menu():
     logger.info("      Main Menu      ")
     logger.info("---------------------")
     logger.info("[1] Employee Menu")
+    logger.info("")
     logger.info("[0] Exit the Program")
     logger.info("")
 
@@ -679,6 +630,9 @@ def employee_menu():
     logger.info("[1] Create Employee")
     logger.info("[2] Update Employee's Address")
     logger.info("[3] Update Employee's Phone Number")
+    logger.info("[4] Remove Employee (inactivate)")
+    logger.info("[5] Get Total Employess")
+    logger.info("")
     logger.info("[0] Return to Main Menu")
     logger.info("")
 
@@ -742,16 +696,57 @@ def update_employee_phone():
         except ValueError:                    
             logger.info(f"Employee ID {employee_id} doesn't exist. Please try again.")
             logger.info("")
-            logger.error(f"Employee ID doesn't exist")
-        
+            logger.error(f"Employee ID doesn't exist") 
         else:
-            
             break
 
     h.clear()
     
     new_phone = h.catch_exception("Employee's new phone number", "needs to be 10 decimal character long", f1 = h.validate_decimals, f2 = h.validate_len, a2 = 10)    
     Employee.update_phone(employee_id, new_phone)    
+    logger.info("")
+    input("Press Enter to continue...")
+
+def remove_employee():
+    back_to_mmenu = False
+
+    h.clear()
+    
+    while True:
+            
+        try:                    
+            employee_id = h.catch_exception("Employee's ID", "needs to be a positive decimal value", f1 = h.validate_positive_n, dtype = "int")
+            Employee.evaluate_id(employee_id, status=True)
+        except ValueError:                    
+            logger.info(f"Employee ID {employee_id} doesn't exist.")
+            logger.info("")
+            logger.error(f"Employee ID doesn't exist")
+            input("Press Enter to go back to Main Menu...")
+            back_to_mmenu= True
+            break
+        except UpdateError:                    
+            logger.info(f"Employee ID {employee_id} is already inactive.")
+            logger.info("")
+            logger.error(f"Employee ID is already inactive")
+            input("Press Enter to go back to Main Menu...")
+            back_to_mmenu= True
+            break
+        else:
+            break
+
+    h.clear()
+    
+    if back_to_mmenu == False:
+        Employee.inactivate_employee(employee_id)   
+        logger.info("")
+        input("Press Enter to continue...")
+
+
+
+def print_total_employees():
+        
+    h.clear()  
+    Employee.get_total_employees() 
     logger.info("")
     input("Press Enter to continue...")
 
@@ -765,7 +760,7 @@ while option != 0:
     if option == 1:
         h.clear()
         employee_menu()
-        h.option_input_validation(employee_menu, option, options=3, m1=create_employee, m2=update_employee_address, m3=update_employee_phone)             
+        h.option_input_validation(employee_menu, option, options=5, m1=create_employee, m2=update_employee_address, m3=update_employee_phone, m4=remove_employee, m5=print_total_employees)             
               
      
     else:
