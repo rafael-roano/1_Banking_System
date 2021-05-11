@@ -268,8 +268,30 @@ def validate_positive_n(input):
     if input < 0:
         raise ValueError
 
+def validate_month(input):              
+    '''Validate input is valid month'''
+    if int(input) < 0 or int(input) > 12:
+        raise ValueError
 
-def catch_exception(field, message, f1=None, f2=None, a2=None, dtype=None):
+def validate_day(input, a2):              
+    '''Validate input is valid day'''    
+    if int(a2) in (1, 3, 5, 7, 8, 10, 12):        
+        if int(input) < 0 or int(input) > 31:
+            raise ValueError
+    elif int(a2) in (4, 6, 10, 11):            
+        if int(input) < 0 or int(input) > 30:
+            raise ValueError
+    elif int(a2) == 2:           
+        if int(input) < 0 or int(input) > 28:
+            raise ValueError
+
+def validate_year(input):              
+    '''Validate input is valid month'''    
+    if int(input) < 1900 or int(input) > 2005:
+        raise ValueError
+
+
+def catch_exception(field, message, f1=None, f2=None, a2=None, f3=None, a3=None, dtype=None, format=""):
     '''Catch exceptions on menu data inputs'''
     
     while True:
@@ -278,13 +300,22 @@ def catch_exception(field, message, f1=None, f2=None, a2=None, dtype=None):
                 x = int(input(f"Enter {field}: "))
             
             else:
-                x = str(input(f"Enter {field}: "))
+                x = str(input(f"Enter {field}{format}: "))
             
             if f1:
                 f1(x)
             
             if f2:
-                f2(x, a2)
+                if a2 == None:
+                    f2(x)
+                else:
+                    f2(x, a2)
+            
+            if f3:
+                if a3 == None:
+                    f3(x)
+                else:
+                    f3(x, a3)
         
         except ValueError:
                 logger.info(f"{field} {message}. Please try again.")
