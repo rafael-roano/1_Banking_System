@@ -44,7 +44,7 @@ def df_to_csv(df, path):
     df.to_csv(path, index=False)
 
 
-def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, m4=None, m5=None):
+def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, m4=None, m5=None, o2=None, o3=None):
 
     f = False   
     
@@ -68,6 +68,8 @@ def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, 
                     
                         if option == 1:
                             m1()
+                            f = True
+                            break
                         
                         else:
                             clear()
@@ -95,11 +97,207 @@ def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, 
                             m1()
                             f = True
                             break
+                        if option == 2:                           
+                            if o2 == None:
+                                m2()
+                            else:
+                                m2(o2)
+                            f = True
+                            break
+                        
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                    
+                    elif options == 3:
+                    
+                        if option == 1:
+                            m1()
+                            f = True
+                            break
+                        if option == 2:                           
+                            if o2 == None:
+                                m2()
+                            else:
+                                m2(o2)
+                            f = True
+                            break
+                        if option == 3:                           
+                            if o3 == None:
+                                m3()
+                            else:
+                                m3(o3)
+                            f = True
+                            break        
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                    elif options == 4:
+                    
+                        if option == 1:
+                            m1()
+                            f = True
+                            break
                         if option == 2:
                             m2()
                             f = True
                             break
+                        if option == 3:
+                            m3()
+                            f = True  
+                            break
+                        if option == 4:
+                            m4()
+                            f = True  
+                            break       
                         
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                        
+                    elif options == 5:
+                    
+                        if option == 1:
+                            m1()
+                            f = True
+                            break
+                        if option == 2:
+                            m2()
+                            f = True
+                            break
+                        if option == 3:
+                            m3()
+                            f = True  
+                            break
+                        if option == 4:
+                            m4()
+                            f = True  
+                            break
+                        if option == 5:
+                            m5()
+                            f = True  
+                            break           
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+
+
+def option_input_validation_main(menu, option, options=1, m1=None, m2=None, m3=None, m4=None, m5=None):
+
+    f = False   
+    
+    while True:
+            try:
+                if option == 0:
+                    return 0                
+                option = int(input("Enter your option: "))
+
+            except ValueError:
+                logger.error("User info inputted was not int type")
+                clear()
+                menu()
+                logger.info("Invalid option. Please try again.")
+                logger.info("")                           
+                       
+            else:               
+                while option != 0:           
+                  
+                    if options == 1:
+                    
+                        if option == 1:
+                            return 1
+                        
+                        else:
+                            clear()
+                            menu()
+                            logger.info("Invalid option. Please try again.")
+                            logger.info("")
+                            
+                            while True:
+                                try:
+                                    option = int(input("Enter your option: "))
+                                    
+                                except ValueError:
+                                    logger.error("User info inputted was not int type")
+                                    clear()
+                                    menu()
+                                    logger.info("Invalid option. Please try again.")
+                                    logger.info("")
+                                else:
+                                    break
+                        
+                    
+                    elif options == 2:
+                    
+                        if option == 1:
+                            return 1
+                    
+                        if option == 2:
+                            return 2
+                                                   
                         
                         else:
                             clear()
@@ -233,8 +431,6 @@ def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, 
                                 else:
                                     break
 
-
-
 def clear():
     if name == "nt":
         s = system("cls")
@@ -265,7 +461,7 @@ def validate_option(input, options):
 
 def validate_positive_n(input):              
     '''Validate input is positive'''    
-    if input < 0:
+    if input < 0:  
         raise ValueError
 
 def validate_month(input):              
@@ -290,6 +486,20 @@ def validate_year(input):
     if int(input) < 1900 or int(input) > 2005:
         raise ValueError
 
+def validate_credit_score(input):              
+    '''Validate input is an acceptable credit score'''    
+    if int(input) < 600 or int(input) > 800:
+        raise ValueError
+
+def validate_interest(input):              
+    '''Validate input is an interest rate from 0.05% to 0.5%'''    
+    if float(input) < 0.05 or float(input) > 0.5:
+        raise ValueError
+
+def validate_terms(input):              
+    '''Validate input is terms: 12, 24, 36, 48 or 60 months'''    
+    if not int(input) in (12, 24, 36 , 48, 60):
+        raise ValueError
 
 def catch_exception(field, message, f1=None, f2=None, a2=None, f3=None, a3=None, dtype=None, format=""):
     '''Catch exceptions on menu data inputs'''

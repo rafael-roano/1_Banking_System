@@ -1,0 +1,262 @@
+2021-05-11 21:34:06,807:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:34:08,798:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:34:09,679:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:34:13,038:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:34:14,056:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:34:15,232:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:32,152:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:32,832:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:33,328:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:34,153:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:34,793:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:35,433:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:38,456:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:39,209:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:40,011:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:40,666:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:52:41,344:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:13,737:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:14,448:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:15,281:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:40,120:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:40,728:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:41,175:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:41,833:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:42,449:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:43,001:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:53:59,320:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:00,224:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:00,865:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:01,608:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:02,137:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:07,800:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:08,704:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:09,289:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:11,136:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:13,769:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:54:59,911:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:00,496:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:01,152:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:14,888:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:15,344:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:15,793:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:16,448:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:18,840:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:19,480:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:20,137:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:20,977:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:23,256:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:24,000:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:24,602:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:25,128:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:38,959:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:39,679:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:40,113:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:40,584:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:41,136:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:41,603:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:42,273:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:43,721:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:44,399:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:45,129:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:45,839:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:46,767:ERROR:helpers:User info inputted was not int type
+2021-05-11 21:55:47,576:ERROR:helpers:User info inputted was not int type
+2021-05-11 22:13:06,683:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:13:08,549:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:13:49,665:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:13:51,968:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:13:53,081:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:13:54,336:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:13:55,040:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:17:50,256:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:17:56,576:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:18:01,489:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:18:02,857:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:18:07,081:ERROR:__main__:Minimun Balance is $100
+2021-05-11 22:18:10,857:ERROR:__main__:Minimun Balance is $100
+2021-05-11 22:19:59,512:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:26:50,918:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:26:53,078:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:26:54,450:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:26:55,355:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:27:01,129:ERROR:__main__:Minimun Balance is $100
+2021-05-11 22:28:32,602:ERROR:__main__:Minimum Balance is $100
+2021-05-11 22:28:33,530:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:28:34,500:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-11 22:47:43,480:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:47:44,488:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:47:45,638:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 22:47:49,716:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:48:13,949:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:49:29,019:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:50:08,585:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:52:19,172:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:52:38,621:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 22:52:45,878:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:54:36,391:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:56:29,433:ERROR:__main__:Customer ID is already inactive
+2021-05-11 22:57:13,329:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:58:23,080:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 22:58:39,542:ERROR:helpers:User info inputted was not int type
+2021-05-11 22:58:40,231:ERROR:helpers:User info inputted was not int type
+2021-05-11 22:58:42,207:ERROR:helpers:User info inputted was not int type
+2021-05-11 22:58:43,095:ERROR:helpers:User info inputted was not int type
+2021-05-11 22:59:02,258:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:00:02,392:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:01:07,879:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:03:26,184:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:05:08,727:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:05:22,973:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:06:32,942:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:07:10,075:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:07:24,348:ERROR:__main__:Customer ID doesn't exist x
+2021-05-11 23:08:08,517:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:10:37,662:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:11:57,327:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:12:16,706:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:12:26,378:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:12:36,738:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:13:31,008:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:13:34,675:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:14:39,612:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:16:40,190:ERROR:helpers:Customer's last name needs to be least one character long
+2021-05-11 23:17:25,378:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:17:55,184:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:17:59,989:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:18:01,414:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:18:03,528:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:18:10,213:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:18:35,569:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:19:01,647:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:19:12,776:ERROR:__main__:Customer ID doesn't exist
+2021-05-11 23:32:18,816:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:32:39,201:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:32:44,691:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:33:04,269:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:33:53,180:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:34:16,954:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:34:20,856:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:34:33,958:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:34:36,874:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:34:50,841:ERROR:__main__:Minimum Balance is $100
+2021-05-11 23:34:55,520:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:35:50,113:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:36:17,537:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:41:22,190:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:41:31,174:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-11 23:41:36,118:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:41:38,000:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:41:40,544:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:41:41,777:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-11 23:41:46,076:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 18:39:16,385:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 18:39:19,313:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 18:39:20,545:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 18:42:24,213:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 18:42:36,740:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-12 18:44:01,496:ERROR:__main__:Minimum Balance is $100
+2021-05-12 18:44:23,966:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 18:44:30,078:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 18:44:40,822:ERROR:helpers:Opening Balance needs to be decimal characters
+2021-05-12 18:44:57,653:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 18:49:40,834:ERROR:__main__:Customer ID is Inactive
+2021-05-12 18:49:49,555:ERROR:__main__:Customer ID is Inactive
+2021-05-12 18:49:53,279:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 19:07:00,492:ERROR:__main__:Customer ID is Inactive
+2021-05-12 19:17:52,708:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:17:53,934:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:20:20,453:ERROR:helpers:User info inputted was not int type
+2021-05-12 19:25:06,568:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 19:25:40,662:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-12 19:57:39,133:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:57:39,958:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:57:40,997:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:57:42,047:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:57:43,181:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 19:58:02,449:ERROR:__main__:Customer ID is Inactive
+2021-05-12 19:58:17,246:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-12 19:59:29,275:ERROR:helpers:Amount to deposit needs to be decimal characters
+2021-05-12 20:23:18,343:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 20:23:20,401:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 20:39:04,888:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-12 20:53:58,696:ERROR:__main__:Minimum Balance is $100
+2021-05-12 21:14:34,795:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 21:14:52,273:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-12 22:39:34,968:ERROR:__main__:Customer ID doesn't exist
+2021-05-12 22:40:23,785:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 22:40:24,841:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 22:40:25,682:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 22:40:30,153:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 22:40:32,170:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-12 22:40:38,350:ERROR:__main__:Customer ID is Inactive
+2021-05-12 22:40:46,943:ERROR:__main__:Customer ID doesn't exist
+2021-05-12 22:40:53,932:ERROR:__main__:Customer ID is Inactive
+2021-05-12 22:41:04,437:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:41:08,974:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:41:10,430:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:41:13,124:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:41:14,573:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:41:15,968:ERROR:helpers:Customer's credit score needs to be above 600
+2021-05-12 22:43:49,429:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 22:43:55,333:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 23:02:08,003:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 23:02:48,812:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:02:50,237:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:02:51,436:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:02:52,604:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:02:53,526:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:04:54,344:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:11:19,951:ERROR:helpers:Terms in months (12, 24, 48 or 60) needs to be: 12, 24, 48 or 60
+2021-05-12 23:12:15,746:ERROR:helpers:Terms in months (12, 24, 48 or 60) 
+2021-05-12 23:14:46,047:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:14:50,502:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:14:51,751:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:14:53,224:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:17:22,724:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 23:17:24,260:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 23:17:25,037:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-12 23:17:31,062:ERROR:helpers:Loan amount needs to be a positive amount
+2021-05-12 23:17:31,992:ERROR:helpers:Loan amount needs to be a positive amount
+2021-05-12 23:17:32,862:ERROR:helpers:Loan amount needs to be a positive amount
+2021-05-12 23:17:36,045:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:17:36,991:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-12 23:17:42,072:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:17:42,810:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-12 23:20:54,064:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-13 20:05:47,300:ERROR:helpers:Employee's phone number needs to be 10 number character long
+2021-05-13 20:05:47,836:ERROR:helpers:Employee's phone number needs to be 10 number character long
+2021-05-13 20:05:48,386:ERROR:helpers:Employee's phone number needs to be 10 number character long
+2021-05-13 20:05:49,379:ERROR:helpers:Employee's phone number needs to be 10 number character long
+2021-05-13 20:05:50,411:ERROR:helpers:Employee's phone number needs to be 10 number character long
+2021-05-13 20:05:59,547:ERROR:helpers:Employee's salary must be a non-negative amount
+2021-05-13 20:06:00,700:ERROR:helpers:Employee's salary must be a non-negative amount
+2021-05-13 20:06:16,133:ERROR:__main__:Customer ID doesn't exist
+2021-05-13 20:06:25,550:ERROR:__main__:Customer ID doesn't exist
+2021-05-13 20:06:51,001:ERROR:helpers:Customer's birth month is not valid. Use format MM, with values between 01 and 12.
+2021-05-13 20:06:54,296:ERROR:helpers:Customer's birth month is not valid. Use format MM, with values between 01 and 12.
+2021-05-13 20:07:02,631:ERROR:helpers:Customer's birth day is not valid. Use format DD, with a valid day for the corresponding month.
+2021-05-13 22:41:29,282:ERROR:helpers:Customer's ID needs to be a positive decimal value
+2021-05-13 22:41:31,670:ERROR:__main__:Customer ID doesn't exist
+2021-05-13 22:44:31,452:ERROR:helpers:Customer's ID needs to be a positive number value
+2021-05-13 22:44:33,330:ERROR:__main__:Customer ID doesn't exist
+2021-05-13 22:44:45,093:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-13 22:44:47,718:ERROR:helpers:Customer's credit score needs to between 600 and 800
+2021-05-13 22:45:28,634:ERROR:helpers:Interest rate needs to be a decimal number from 0.05 to 0.5
+2021-05-13 22:45:33,769:ERROR:helpers:Terms needs to be in months (12, 24, 48 or 60).
+2021-05-13 22:45:56,322:ERROR:__main__:Customer ID already has a Car Loan
+2021-05-13 22:50:21,968:ERROR:__main__:Customer ID already has a Car Loan
+2021-05-13 22:53:56,514:ERROR:__main__:Customer ID doesn't exist
+2021-05-13 22:55:31,843:ERROR:__main__:Customer ID already has a Savings Account
+2021-05-13 23:00:25,127:ERROR:__main__:Customer ID is Inactive
+2021-05-13 23:07:00,775:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-13 23:08:43,515:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-13 23:09:01,133:ERROR:__main__:Customer ID is Inactive
+2021-05-13 23:09:29,179:ERROR:__main__:Customer ID is Inactive
+2021-05-13 23:09:44,135:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-13 23:10:31,474:ERROR:__main__:Customer ID has no active Savings Account
+2021-05-13 23:10:43,491:ERROR:__main__:Customer ID is Inactive
+2021-05-13 23:12:24,819:ERROR:__main__:Customer ID already has a Car Loan
+2021-05-13 23:12:28,481:ERROR:__main__:Customer ID is Inactive
+2021-05-13 23:12:37,525:ERROR:__main__:Customer ID has no active Car Loan
+2021-05-13 23:12:44,963:ERROR:__main__:Customer ID doesn't exist
