@@ -3,6 +3,7 @@ import logging
 from os import system, name
 
 class HandlerFilter():
+    '''Class to filter handler based on message levels'''
     def __init__(self, level):
         self.__level = level
 
@@ -45,6 +46,7 @@ def df_to_csv(df, path):
 
 
 def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, m4=None, m5=None, o2=None, o3=None):
+    '''Validate menu input'''
 
     f = False   
     
@@ -246,6 +248,7 @@ def option_input_validation(menu, option, options=1, m1=None, m2=None, m3=None, 
 
 
 def option_input_validation_main(menu, option, options=1, m1=None, m2=None, m3=None, m4=None, m5=None):
+    '''Validate menu input'''
 
     f = False   
     
@@ -432,6 +435,7 @@ def option_input_validation_main(menu, option, options=1, m1=None, m2=None, m3=N
                                     break
 
 def clear():
+    '''Clear terminal'''
     if name == "nt":
         s = system("cls")
   

@@ -2,19 +2,42 @@ from datetime import date
 import pandas as pd
 import helpers as h
 import logging
-import time
-start_time = time.time()
+# import time
+# start_time = time.time()
 
 class UpdateError(Exception):
+    '''Class to handle errors related to data validation'''
+
     def __init__(self, value = None):
+        '''
+        Initialize UpdateError object.
+              
+        Args:
+            value (int): Value to include in logger.info message
+        '''
         self.value = value
 
 class HandlerFilter():
+    '''Class to filter handler based on message levels'''
     def __init__(self, level):
+        '''
+        Initialize HandleFilter object.
+              
+        Args:
+            level: Level to filter handler with
+        '''
         self.__level = level
 
     def filter(self, logRecord):
+        '''
+        Filter logrecord based on level.
+              
+        Args:
+            logrecord: Log to filter
+        '''
+
         return logRecord.levelno == self.__level
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -48,7 +71,7 @@ class User:
                 phone (str): User's phone number
         '''
         
-        user_info_ser = pd.Series(user_info)                                                                # Create Pd series from list argument
+        user_info_ser = pd.Series(user_info)
         self._first_name, self._last_name, self._address, self._phone, self._creation_date = \
             user_info_ser[0], user_info_ser[1],user_info_ser[2], user_info_ser[3], date.today()       
                                                                                                 
@@ -83,7 +106,7 @@ class User:
         Evaluates if id is valid
         
         Args:
-            id (int): Employee's ID to validate
+            id (int): User's ID to validate
         '''
         pass
         
@@ -129,7 +152,7 @@ class Employee(User):
             status (bool): Employee's Status
         '''
         User.__init__(self, user_info)
-        self.increase_employees()                                                                    # Increase Employee and ID counters by one
+        self.increase_employees()                                                                       # Increase Employee and ID counters by one
     
         employee_info_ser = pd.Series(employee_info)                                                    # Create Pd series from list argument
         self._employee_id, self._level, self._salary, self._status = \
@@ -174,6 +197,7 @@ class Employee(User):
 
         Raises:            
             ValueError: Check if emp_id exists.
+            UpdateError: Check if status of employee is False
 
         '''            
         User.evaluate_id(emp_id)
@@ -384,6 +408,7 @@ class Customer(User):
 
         Raises:            
             ValueError: Check if cus_id exists.
+            UpdateError: Check if status of customer is False
 
         '''            
         User.evaluate_id(cus_id)
@@ -571,11 +596,7 @@ class BankAccount:
         Add bank account creation date.
        
         Args:
-            owner_id (str): ID of bank account owner (customer)
-            balance (float): Balance added when opening account
-        
-        Raises (TBD)
-
+            customer_id (int): ID of bank account owner (customer)
         '''
         self._customer_id, self._opening_date = customer_id, date.today()  
 
@@ -616,10 +637,11 @@ class SavingsAccount(BankAccount):
         Initialize Savings Account object.
               
         Args:
-            customer_id (str): ID of Savings Account owner (customer)
+            customer_id (int): ID of Savings Account owner (customer)
             balance (float): Balance added when opening account
         
-        Raises (TBD)
+        Raises:            
+            ValueError: Check if balance is less than minimum amount to open account
 
           
         '''
@@ -668,7 +690,7 @@ class SavingsAccount(BankAccount):
                 2: Check if customer has no active savings account
                  
         Raises:            
-            ValueError: Check if customer already has a Savings Account opened
+            UpdateError: Check if customer already has a Savings Account opened
 
         '''            
         
@@ -689,8 +711,7 @@ class SavingsAccount(BankAccount):
     @classmethod
     def increase_sav_accounts(cls):
         '''
-        Get current total active savings accounts and current savings account ID count from csv file (cls_attr.csv) and increase by 1 when initiliazing new Savings Account object
-                       
+        Get current total active savings accounts and current savings account ID count from csv file (cls_attr.csv) and increase by 1 when initiliazing new Savings Account object        
         '''
         
         cls_attr_df = pd.read_csv("1_Banking_System/data/cls_attr.csv", header=None, index_col=0)
@@ -744,6 +765,9 @@ class SavingsAccount(BankAccount):
                 2: withdraw
             cus_id (int): Owner of account
         
+        Raises:            
+            UpdateError: Check if initial balance is less that amount to withdraw
+        
         '''
         BankAccount.trasaction(amount, transaction)
        
@@ -777,14 +801,25 @@ class SavingsAccount(BankAccount):
         Args:           
             cus_id (int): Owner of account
         
+        Raises:            
+            UpdateError: Check if customer has an active savings account to close
+        
         '''       
         savings_accts = h.csv_to_df("1_Banking_System/data/Savings_Accounts.csv")
-        savings_acct_id = savings_accts.loc[savings_accts['customer_id'] == cus_id, "savings_acct_id"].iloc[0]                     
-        savings_accts.at[savings_accts.customer_id == cus_id, "balance"] = 0
-        savings_accts.at[savings_accts.customer_id == cus_id, "active"] = False   
-        savings_accts = cls._convert_df_datatypes(savings_accts)
-        h.df_to_csv(savings_accts, "1_Banking_System/data/Savings_Accounts.csv")
-        logger.info(f"Savings Account #{savings_acct_id} was zeroed and inactivated")
+        
+        try:
+        
+            savings_acct_id = savings_accts.loc[savings_accts['customer_id'] == cus_id, "savings_acct_id"].iloc[0]                     
+        
+        except IndexError:
+            pass
+        
+        else:
+            savings_accts.at[savings_accts.customer_id == cus_id, "balance"] = 0
+            savings_accts.at[savings_accts.customer_id == cus_id, "active"] = False   
+            savings_accts = cls._convert_df_datatypes(savings_accts)
+            h.df_to_csv(savings_accts, "1_Banking_System/data/Savings_Accounts.csv")
+            logger.info(f"Savings Account #{savings_acct_id} was zeroed and inactivated")
                 
 
 class CarLoan():
@@ -871,7 +906,7 @@ class CarLoan():
                 2: Check if customer has no active car loan
                  
         Raises:            
-            ValueError: Check if customer already has a Car Loan opened
+            UpdateError: Check if customer already has a Car Loan opened
 
         '''            
         
@@ -952,6 +987,8 @@ class CarLoan():
                 2: TBD
             cus_id (int): Owner of account
         
+        Raises:            
+            UpdateError: Check if initial balance is less than amount to transact
         '''       
 
         car_loans = h.csv_to_df("1_Banking_System/data/Car_Loans.csv")                      
@@ -974,9 +1011,40 @@ class CarLoan():
         car_loans = cls._convert_df_datatypes(car_loans)
         h.df_to_csv(car_loans, "1_Banking_System/data/Car_Loans.csv")
 
+    @classmethod
+    def close_car_loan(cls, cus_id):
+        '''
+        Close car loan and zero balance when customer is inactivated   
+     
+        Args:           
+            cus_id (int): Owner of loan
+        
+        Raises:            
+            UpdateError: Check if customer has an active loan to close
+        
+        '''       
+        car_loans = h.csv_to_df("1_Banking_System/data/Car_Loans.csv")
+        
+        try:
+        
+            car_loan_id = car_loans.loc[car_loans['customer_id'] == cus_id, "car_loan_id"].iloc[0]                     
+        
+        except IndexError:
+            pass
+        
+        else:
+            car_loans.at[car_loans.customer_id == cus_id, "balance"] = 0
+            car_loans.at[car_loans.customer_id == cus_id, "active"] = False   
+            car_loans = cls._convert_df_datatypes(car_loans)
+            h.df_to_csv(car_loans, "1_Banking_System/data/Car_Loans.csv")
+            logger.info(f"Car Loan #{car_loan_id} was zeroed and inactivated")
+
+
+
 
 
 def menu():
+    '''Main Menu'''
     logger.info("      Main Menu      ")
     logger.info("---------------------")
     logger.info("[1] Employee Menu")
@@ -987,6 +1055,7 @@ def menu():
     logger.info("")
 
 def employee_menu():
+    '''Employee Menu'''
     logger.info("   Employee Menu   ")
     logger.info('-------------------')
     logger.info("[1] Create Employee")
@@ -999,6 +1068,7 @@ def employee_menu():
     logger.info("")
 
 def customer_menu():
+    '''Customer Menu'''
     logger.info("   Customer Menu   ")
     logger.info('-------------------')
     logger.info("[1] Create Customer")
@@ -1011,6 +1081,7 @@ def customer_menu():
     logger.info("")
 
 def services_menu():
+    '''Services Menu'''
     logger.info("   Services Menu   ")
     logger.info('-------------------')
     logger.info("[1] Savings Accounts")
@@ -1020,28 +1091,31 @@ def services_menu():
     logger.info("")
 
 def savings_menu():
+    '''Savings Account Menu'''
     logger.info("   Savings Menu   ")
     logger.info('------------------')
     logger.info("[1] Open Savings Account")
     logger.info("[2] Deposit")
     logger.info("[3] Withdraw")
     logger.info("")
-    logger.info("[0] Return to Main Menu")
+    logger.info("[0] Return to Services Menu")
     logger.info("")
 
 def car_menu():
+    '''Car Loans Menu'''
     logger.info("   Car Loans Menu   ")
     logger.info('--------------------')
     logger.info("[1] Open Car Loan")
     logger.info("[2] Payment")
     logger.info("")
-    logger.info("[0] Return to Main Menu")
+    logger.info("[0] Return to Services Menu")
     logger.info("")
     
 
 
 
 def create_employee():
+    '''Menu method to create employee'''
         
     h.clear()
     
@@ -1063,6 +1137,7 @@ def create_employee():
     input("Press Enter to continue...")
 
 def update_employee_address():
+    '''Menu method to update Employee's Address'''
         
     h.clear()
     
@@ -1088,6 +1163,7 @@ def update_employee_address():
     input("Press Enter to continue...")
 
 def update_employee_phone():
+    '''Menu method to update Employee's Phone Number'''
         
     h.clear()
     
@@ -1111,6 +1187,7 @@ def update_employee_phone():
     input("Press Enter to continue...")
 
 def remove_employee():
+    '''Menu method to remove Employee'''
     back_to_mmenu = False
 
     h.clear()
@@ -1145,6 +1222,7 @@ def remove_employee():
         input("Press Enter to continue...")
 
 def print_total_employees():
+    '''Menu method to print Total of Employees'''
         
     h.clear()  
     Employee.get_total_employees() 
@@ -1153,6 +1231,7 @@ def print_total_employees():
 
 
 def create_customer():
+    '''Menu method to create Customer'''
         
     h.clear()
     
@@ -1179,6 +1258,7 @@ def create_customer():
     input("Press Enter to continue...")
 
 def update_customer_address():
+    '''Menu method to update Customer's Address'''
         
     h.clear()
     
@@ -1204,6 +1284,7 @@ def update_customer_address():
     input("Press Enter to continue...")
 
 def update_customer_phone():
+    '''Menu method to update Customer's Address'''
         
     h.clear()
     
@@ -1221,15 +1302,13 @@ def update_customer_phone():
 
     h.clear()
     
-    
-    
-    
     new_phone = h.catch_exception("Customer's new phone number", "needs to be 10 number character long", f1 = h.validate_decimals, f2 = h.validate_len, a2 = 10)    
     Customer.update_phone(customer_id, new_phone)    
     logger.info("")
     input("Press Enter to continue...")
 
 def remove_customer():
+    '''Menu method to Remove Customer'''
     back_to_mmenu = False
     h.clear()
     
@@ -1260,10 +1339,12 @@ def remove_customer():
     if back_to_mmenu == False:
         Customer.inactivate_customer(customer_id)
         SavingsAccount.close_acct(customer_id)
+        CarLoan.close_car_loan(customer_id)
         logger.info("")
         input("Press Enter to continue...")
 
 def print_total_customers():
+    '''Menu method to get total of Employees'''
         
     h.clear()  
     Customer.get_total_customers() 
@@ -1272,6 +1353,7 @@ def print_total_customers():
 
 
 def open_sav_acct():
+    '''Menu method to open Savings Account'''
     back_to_smenu = False
     f = False   
    
@@ -1320,7 +1402,6 @@ def open_sav_acct():
                     break   
 
           
-            
     if back_to_smenu == False:
         while True:
             
@@ -1338,6 +1419,7 @@ def open_sav_acct():
         input("Press Enter to continue...")
 
 def transaction_sav_acct(transaction):
+    '''Menu method to trasanct on Savings Account'''
     back_to_smenu = False
     f = False   
     
@@ -1391,15 +1473,13 @@ def transaction_sav_acct(transaction):
                     break   
 
           
-            
     if back_to_smenu == False:
         while True:
             try:              
                                    
                 amount = h.catch_exception(message, "needs to be a positive amount", f1 = h.validate_decimals)
                 SavingsAccount.trasaction(float(amount), transaction, customer_id)
-            except UpdateError as e:
-                    print()                    
+            except UpdateError as e:                  
                     logger.info(f"Amount to withdraw exceeds current balance: ${e.value}. Please try again.")
                     logger.info("")
                     logger.error(f"Amount to withdraw exceeds current balance") 
@@ -1411,6 +1491,7 @@ def transaction_sav_acct(transaction):
 
 
 def open_car_loan():
+    '''Menu method to open Car Loan'''
     back_to_smenu = False
     f = False 
        
@@ -1476,6 +1557,7 @@ def open_car_loan():
 
 
 def car_loan_payment(transaction):
+    '''Menu method to transact on Car Loan'''
     back_to_smenu = False
     f = False
 
@@ -1534,8 +1616,7 @@ def car_loan_payment(transaction):
                                    
                 amount = h.catch_exception(message, "needs to be a positive amount", f1 = h.validate_decimals)
                 CarLoan.trasaction(float(amount), transaction, customer_id)
-            except UpdateError as e:
-                    print()                    
+            except UpdateError as e:                 
                     logger.info(f"Amount to pay exceeds current balance: ${e.value}. Please try again.")
                     logger.info("")
                     logger.error(f"Amount to pay exceeds current balance") 
@@ -1550,48 +1631,111 @@ def car_loan_payment(transaction):
 
 h.clear()
 menu()
-option = int(input("Enter your option: "))
-
-while option != 0:
+option = None
+while True:
+    try:
+        if option == 0:
+            break       
+        option = int(input("Enter your option: "))
+   
+    except ValueError:
+        logger.error("User info inputted was invalid")
+        h.clear()
+        menu()
+        logger.info("Invalid option. Please try again.")
+        logger.info("")
     
-    if option == 1:
-        h.clear()
-        employee_menu()
-        h.option_input_validation(employee_menu, option, options=5, m1=create_employee, m2=update_employee_address, m3=update_employee_phone, m4=remove_employee, m5=print_total_employees)             
-              
-    elif option == 2:
-        h.clear()
-        customer_menu()
-        h.option_input_validation(customer_menu, option, options=5, m1=create_customer, m2=update_customer_address, m3=update_customer_phone, m4=remove_customer, m5=print_total_customers)
-
-    elif option == 3:
-        h.clear()
-        services_menu()
-        option = h.option_input_validation_main(services_menu, option, options=2, m1=savings_menu, m2=car_menu) 
-
-        while option != 0:
+    else:       
         
-            if option == 1:
-                h.clear()
-                savings_menu()
-                h.option_input_validation(savings_menu, option, options=3, m1=open_sav_acct, m2=transaction_sav_acct, o2=1, m3=transaction_sav_acct, o3=2)
+        while option != 0:
+            f = False
             
-            if option == 2:
-                h.clear()
-                car_menu()
-                h.option_input_validation(savings_menu, option, options=2, m1=open_car_loan, m2=car_loan_payment, o2=1)
-            
-            
-            h.clear()
-            services_menu()
-            option = h.option_input_validation_main(services_menu, option, options=2, m1=savings_menu, m2=car_menu)    
+            while True:
+                try:
+                    if option == 0:
+                        break
+                    if f == True:
+                        option = int(input("Enter your option: "))
+                        if option == 0:
+                            break
+
+                    if option == 1:
+                        h.clear()
+                        employee_menu()
+                        h.option_input_validation(employee_menu, option, options=5, m1=create_employee, m2=update_employee_address, m3=update_employee_phone, m4=remove_employee, m5=print_total_employees)
+                        h.clear()
+                        menu()
+                                    
+                            
+                    elif option == 2:
+                        h.clear()
+                        customer_menu()
+                        h.option_input_validation(customer_menu, option, options=5, m1=create_customer, m2=update_customer_address, m3=update_customer_phone, m4=remove_customer, m5=print_total_customers)
+                        h.clear()
+                        menu()
+
+                    elif option == 3:
+                        h.clear()
+                        services_menu()
+                        option = h.option_input_validation_main(services_menu, option, options=2, m1=savings_menu, m2=car_menu)
+                        
+
+                        while option != 0:
+                        
+                            if option == 1:
+                                h.clear()
+                                savings_menu()
+                                h.option_input_validation(savings_menu, option, options=3, m1=open_sav_acct, m2=transaction_sav_acct, o2=1, m3=transaction_sav_acct, o3=2)
+                            
+                            if option == 2:
+                                h.clear()
+                                car_menu()
+                                h.option_input_validation(car_menu, option, options=2, m1=open_car_loan, m2=car_loan_payment, o2=1)
+                            
+                            
+                            h.clear()
+                            services_menu()
+                            option = h.option_input_validation_main(services_menu, option, options=2, m1=savings_menu, m2=car_menu)
+                        
+                        h.clear()
+                        menu()
+                    
+                    else:
+                        logger.error("User info inputted was invalid")
+                        h.clear()
+                        menu()
+                        logger.info("Invalid option. Please try again.")
+                        logger.info("")
+                        f=False  
+                
+                    
+                    option = int(input("Enter your option: "))
+                
+                except ValueError:
+                    logger.error("User info inputted was invalid")
+                    h.clear()
+                    menu()
+                    logger.info("Invalid option. Please try again.")
+                    logger.info("")
+                    f = True
+                    option=None
+                
+                else:
+                    logger.error("User info inputted was invalid")
+                    h.clear()
+                    menu()
+                    logger.info("Invalid option. Please try again.")
+                    logger.info("") 
+                
+                
+               
     
-    else:
-        logger.info("Invalid option.")
     
-    h.clear()
-    menu()
-    option = int(input("Enter your option: "))
+    
+ 
+                
+
+
 
 h.clear()
 logger.info("Thanks for using this program.")
